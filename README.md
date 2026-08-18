@@ -1,4 +1,4 @@
-# Monthly Sheet Manager 📊
+<h1 align="center">Monthly Sheet Manager 📊</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Google%20Apps%20Script-4285F4?style=flat&logo=google-apps-script&logoColor=white" alt="Google Apps Script" />
@@ -8,7 +8,9 @@
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs Welcome" />
 </p>
 
-A high-performance Google Apps Script automation tool and control center sidebar designed to streamline monthly caller sheet generation across distributed spreadsheets.
+<p align="center">
+  A high-performance Google Apps Script automation tool and control center sidebar designed to streamline monthly caller sheet generation across distributed spreadsheets.
+</p>
 
 ---
 
