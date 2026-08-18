@@ -611,7 +611,6 @@ function getManagerPanelHtml_() {
     :root {
       --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
       
-      /* Dark Mode Glassmorphism Variables */
       --bg-gradient: radial-gradient(180px 180px at 105% 2%, rgba(10,132,255,0.26), transparent 70%),
                      radial-gradient(210px 210px at -10% 18%, rgba(90,200,250,0.20), transparent 70%),
                      radial-gradient(190px 190px at 85% 74%, rgba(52,199,89,0.13), transparent 72%),
@@ -648,7 +647,6 @@ function getManagerPanelHtml_() {
       --glow-b: rgba(56, 189, 248, 0.2);
     }
 
-    /* Adaptive Light Glassmorphism Overrides (Default) */
     [data-theme="light"] {
       --bg-gradient: radial-gradient(180px 180px at 105% 2%, rgba(10,132,255,0.22), transparent 70%),
                      radial-gradient(210px 210px at -10% 18%, rgba(90,200,250,0.18), transparent 70%),
@@ -735,7 +733,6 @@ function getManagerPanelHtml_() {
       animation: fadeIn .45s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Header Section */
     .header {
       display: flex;
       align-items: center;
@@ -818,7 +815,6 @@ function getManagerPanelHtml_() {
       transform: scale(1.08) translateY(-1px);
     }
 
-    /* Ultra Glassmorphism Cards */
     .glass-card {
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
@@ -851,7 +847,6 @@ function getManagerPanelHtml_() {
       opacity: 0.2;
     }
 
-    /* Buttons Stack */
     .button-stack {
       display: flex;
       flex-direction: column;
@@ -934,7 +929,6 @@ function getManagerPanelHtml_() {
       transform: scale(1.1);
     }
 
-    /* Button Variants */
     .btn-primary {
       color: #ffffff;
       border-color: rgba(255, 255, 255, 0.34);
@@ -986,7 +980,6 @@ function getManagerPanelHtml_() {
       border-color: rgba(255, 255, 255, 0.3);
     }
 
-    /* Working Progress Banner */
     .working-box {
       display: none;
       align-items: center;
@@ -1034,7 +1027,6 @@ function getManagerPanelHtml_() {
       margin-top: 1px;
     }
 
-    /* Execution Results Card */
     .results-card {
       display: none;
       position: relative;
@@ -1206,7 +1198,6 @@ function getManagerPanelHtml_() {
 <body>
 
   <div class="app-container">
-    <!-- Top Header -->
     <div class="header">
       <div class="brand-group">
         <div class="brand-icon-wrapper">📋</div>
@@ -1223,7 +1214,6 @@ function getManagerPanelHtml_() {
       </div>
     </div>
 
-    <!-- Core Actions Card -->
     <div class="glass-card">
       <div class="card-label">Workflows</div>
       <div class="button-stack">
@@ -1244,7 +1234,6 @@ function getManagerPanelHtml_() {
       </div>
     </div>
 
-    <!-- Maintenance Card -->
     <div class="glass-card">
       <div class="card-label">Maintenance</div>
       <div class="button-stack">
@@ -1255,7 +1244,6 @@ function getManagerPanelHtml_() {
       </div>
     </div>
 
-    <!-- Working Progress Indicator -->
     <div id="working" class="working-box">
       <div class="spinner-ring"></div>
       <div class="working-text">
@@ -1264,7 +1252,6 @@ function getManagerPanelHtml_() {
       </div>
     </div>
 
-    <!-- Execution Results Dashboard -->
     <div id="result" class="results-card">
       <button class="close-btn" onclick="closeResults()" title="Close Notification">✕</button>
 
@@ -1281,7 +1268,6 @@ function getManagerPanelHtml_() {
       <div id="details" class="details-box" style="display:none"></div>
     </div>
 
-    <!-- Footer Note -->
     <div class="footer">
       Glass Control Center • Adaptive Themes
     </div>
@@ -1351,7 +1337,7 @@ function getManagerPanelHtml_() {
 
       if (result.details && result.details.length) {
         details.style.display = 'block';
-        details.textContent = result.details.join('\n') + (result.more ? ('\n\n… and ' + result.more + ' more.') : '');
+        details.textContent = result.details.join('\\n') + (result.more ? ('\\n\\n… and ' + result.more + ' more.') : '');
       } else {
         details.style.display = 'none';
         details.textContent = '';
@@ -1426,4 +1412,5 @@ function getManagerPanelHtml_() {
     }
   </script>
 </body>
-</html>
+</html>`;
+}
