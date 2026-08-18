@@ -82,19 +82,20 @@ flowchart TD
 
 ---
 
-## 🌟 Key Features
+## 🌟 Key Features Chart
 
-- **📊 Real-Time 0-100% Progress Bar & ETA**: Live visual progress loader with exact percentage, row-by-row status, and real-time remaining time estimate (ETA).
-- **🎛️ Interactive Stat Pill Filters**: Click top summary pills (`CREATED`, `ALREADY EXISTS`, `SKIPPED`, `ERRORS`) to filter log entries instantly with glowing selection highlights.
-- **📋 Modern TSV/Excel Copy-to-Clipboard**: Export preview & detail log data formatted directly into Tab-Separated Values (TSV) for seamless copy-pasting into Microsoft Excel or Google Sheets.
-- **🎨 Custom Modern Slim Scrollbars**: 5px minimalist glassmorphic scrollbars with theme-adaptive hover effects across sidebar containers and log viewports.
-- **⚡ Direct Auto-Open Sidebar**: Automatically launches the **MIS Control Center** sidebar panel as soon as the Google Sheet is opened or refreshed.
-- **🚀 Automated Monthly Sheet Duplication**: Automatically clones a predefined `Template` sheet to target spreadsheets listed in the control sheet.
-- **💎 Ultra-Modern Glassmorphic Design**: High-end **MIS Control Center • K41L3Y** sidebar with smooth backdrop blurs and glowing accents.
-- **☀️ Light & 🌙 Dark Mode Support**: Dynamic theme toggle supporting a native Google Sheets light mode and midnight dark mode.
-- **🔍 Safe Execution Preview**: Dry-run mode to inspect expected sheet creations and validate URLs before modifying target spreadsheets.
-- **🔄 Smart Error Handling & Retry**: Built-in lock mechanism, status tracking per row, and 1-click retry for failed rows.
-- **🌐 Interactive Graphify Topology**: View complete codebase AST knowledge graph in [`graphify-out/graphify.html`](./graphify-out/graphify.html).
+| Icon | Category | Feature Name | Description | Key Benefit |
+| :---: | :--- | :--- | :--- | :--- |
+| 📊 | **Execution Engine** | **Real-Time Progress & ETA** | Live batch runner displaying 0-100% percentage, current row, & dynamic ETA calculation | Full transparency on execution time |
+| 🎛️ | **Interactive UI** | **Interactive Stat Pills** | Clickable summary pills (`CREATED`, `EXISTS`, `SKIPPED`, `ERRORS`) with active glowing highlights | Instant row-level log filtering |
+| 📋 | **Data Export** | **TSV / Excel 1-Click Copy** | Compact SVG button exporting log details formatted as Tab-Separated Values | Paste cleanly into Excel or Sheets |
+| 🎨 | **Design System** | **Glassmorphism & 5px Scrollbars** | High-end frosted glass cards, smooth blurs, and ultra-slim 5px custom scrollbars | Modern Apple-like desktop aesthetic |
+| ☀️/🌙 | **Themes** | **Light & Dark Mode** | Instant toggle supporting native Google Sheets Light theme and Midnight Dark theme | High readability in any environment |
+| ⚡ | **Automation** | **Direct Auto-Open Sidebar** | Automatically triggers `onOpen()` to load **MIS Control Center** on sheet startup | Zero manual menu clicks needed |
+| 🚀 | **Duplication** | **Template Copy Engine** | Clones predefined `Template` sheet to target spreadsheets listed in control sheet | Fast, error-free monthly rollout |
+| 🔍 | **Validation** | **Safe Execution Preview** | Dry-run mode validating URLs and target sheets before making changes | Prevents accidental sheet overwrites |
+| 🔄 | **Resilience** | **Smart Error Handling & Retry** | Script locks, row-by-row status updates, and 1-click failed row retries | Seamless recovery from network errors |
+| 🌐 | **Topology** | **Graphify Codebase Graph** | Interactive AST knowledge graph visualization in [`graphify-out/graphify.html`](./graphify-out/graphify.html) | Total architectural code clarity |
 
 ---
 
