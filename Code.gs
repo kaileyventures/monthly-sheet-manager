@@ -1269,7 +1269,7 @@ function getManagerPanelHtml_() {
     </div>
 
     <div class="footer">
-      Glass Control Center • Adaptive Themes
+      MIS Control Center • K41L3Y
     </div>
   </div>
 
