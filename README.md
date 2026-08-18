@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  A high-performance Google Apps Script automation tool and control center sidebar designed to streamline monthly caller sheet generation across distributed spreadsheets.
+  A high-performance Google Apps Script automation tool powered by <b>MIS Control Center • K41L3Y</b>, designed to streamline monthly caller sheet generation across distributed spreadsheets.
 </p>
 
 ---
@@ -18,7 +18,7 @@
 
 ```mermaid
 flowchart TD
-    Start["📱 User Opens Control Center"]
+    Start["📱 User Opens MIS Control Center"]
     Trigger{"Choose Workflow Action"}
 
     FetchData["Read Control Sheet Rows & URLs"]
@@ -85,7 +85,7 @@ flowchart TD
 ## 🌟 Key Features
 
 - **🚀 Automated Monthly Sheet Duplication**: Automatically clones a predefined `Template` sheet to target spreadsheets listed in the control sheet.
-- **💎 Ultra-Modern Glassmorphism UI**: High-end glass-styled control panel sidebar with smooth backdrop blurs and glowing accents.
+- **💎 Ultra-Modern Glassmorphism UI**: High-end <b>MIS Control Center • K41L3Y</b> sidebar with smooth backdrop blurs and glowing accents.
 - **☀️ Light & 🌙 Dark Mode Support**: Dynamic theme toggle supporting a native Google Sheets light mode and midnight dark mode.
 - **🔍 Safe Execution Preview**: Dry-run mode to inspect expected sheet creations and validate URLs before modifying target spreadsheets.
 - **🔄 Smart Error Handling & Retry**: Built-in lock mechanism, status tracking per row, and 1-click retry for failed rows.
