@@ -18,7 +18,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:onOpen",
-      "community": 3,
+      "community": 2,
       "norm_label": "onopen()"
     },
     {
@@ -27,7 +27,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:openManagerPanel",
-      "community": 3,
+      "community": 2,
       "norm_label": "openmanagerpanel()"
     },
     {
@@ -36,7 +36,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:findControlSheet_",
-      "community": 2,
+      "community": 1,
       "norm_label": "findcontrolsheet_()"
     },
     {
@@ -45,7 +45,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:findHeaderColumn_",
-      "community": 2,
+      "community": 1,
       "norm_label": "findheadercolumn_()"
     },
     {
@@ -54,7 +54,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:ensureHeaderColumn_",
-      "community": 2,
+      "community": 1,
       "norm_label": "ensureheadercolumn_()"
     },
     {
@@ -63,7 +63,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:setStatus_",
-      "community": 2,
+      "community": 1,
       "norm_label": "setstatus_()"
     },
     {
@@ -72,7 +72,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:setError_",
-      "community": 2,
+      "community": 1,
       "norm_label": "seterror_()"
     },
     {
@@ -81,7 +81,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:setCreatedLink_",
-      "community": 2,
+      "community": 1,
       "norm_label": "setcreatedlink_()"
     },
     {
@@ -90,7 +90,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:createMonthlySheetsSafe",
-      "community": 3,
+      "community": 2,
       "norm_label": "createmonthlysheetssafe()"
     },
     {
@@ -99,7 +99,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:processRows_",
-      "community": 3,
+      "community": 2,
       "norm_label": "processrows_()"
     },
     {
@@ -135,7 +135,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:previewMonthlySheets",
-      "community": 3,
+      "community": 2,
       "norm_label": "previewmonthlysheets()"
     },
     {
@@ -144,7 +144,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:retryFailedRows",
-      "community": 3,
+      "community": 2,
       "norm_label": "retryfailedrows()"
     },
     {
@@ -153,7 +153,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:clearProcessingStatus",
-      "community": 3,
+      "community": 2,
       "norm_label": "clearprocessingstatus()"
     },
     {
@@ -162,7 +162,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:getSheetUrl_",
-      "community": 2,
+      "community": 1,
       "norm_label": "getsheeturl_()"
     },
     {
@@ -171,7 +171,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:extractSpreadsheetId_",
-      "community": 2,
+      "community": 1,
       "norm_label": "extractspreadsheetid_()"
     },
     {
@@ -180,7 +180,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:buildSheetUrl_",
-      "community": 2,
+      "community": 1,
       "norm_label": "buildsheeturl_()"
     },
     {
@@ -189,7 +189,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:isValidSheetName_",
-      "community": 2,
+      "community": 1,
       "norm_label": "isvalidsheetname_()"
     },
     {
@@ -198,7 +198,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:isDuplicateSheetError_",
-      "community": 2,
+      "community": 1,
       "norm_label": "isduplicatesheeterror_()"
     },
     {
@@ -207,7 +207,7 @@
       "source_file": "Code.gs",
       "_origin": "ast",
       "id": "fn:removeLegacyExecutionLog_",
-      "community": 2,
+      "community": 1,
       "norm_label": "removelegacyexecutionlog_()"
     },
     {
@@ -319,6 +319,24 @@
       "norm_label": "escapehtml()"
     },
     {
+      "label": "formatEta()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:formatEta",
+      "community": 0,
+      "norm_label": "formateta()"
+    },
+    {
+      "label": "refreshSafetyTimer()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:refreshSafetyTimer",
+      "community": 0,
+      "norm_label": "refreshsafetytimer()"
+    },
+    {
       "label": "run()",
       "file_type": "code",
       "source_file": "Code.gs",
@@ -351,7 +369,7 @@
       "source_file": "src/core/Config.gs",
       "_origin": "ast",
       "id": "gs:src/core/Config.gs",
-      "community": 3,
+      "community": 2,
       "norm_label": "config.gs"
     },
     {
@@ -360,7 +378,7 @@
       "source_file": "src/services/SheetProcessor.gs",
       "_origin": "ast",
       "id": "gs:src/services/SheetProcessor.gs",
-      "community": 3,
+      "community": 2,
       "norm_label": "sheetprocessor.gs"
     },
     {
@@ -369,7 +387,7 @@
       "source_file": "src/utils/SheetUtils.gs",
       "_origin": "ast",
       "id": "gs:src/utils/SheetUtils.gs",
-      "community": 2,
+      "community": 1,
       "norm_label": "sheetutils.gs"
     },
     {
@@ -378,7 +396,7 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html:Sidebar.html",
-      "community": 1,
+      "community": 3,
       "norm_label": "sidebar.html"
     },
     {
@@ -387,7 +405,7 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html_fn:resetBusyState",
-      "community": 1,
+      "community": 3,
       "norm_label": "resetbusystate()"
     },
     {
@@ -396,7 +414,7 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html_fn:copyDetailsToClipboard",
-      "community": 1,
+      "community": 4,
       "norm_label": "copydetailstoclipboard()"
     },
     {
@@ -405,7 +423,7 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html_fn:fallbackCopyText",
-      "community": 1,
+      "community": 3,
       "norm_label": "fallbackcopytext()"
     },
     {
@@ -414,7 +432,7 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html_fn:onCopySuccess",
-      "community": 1,
+      "community": 3,
       "norm_label": "oncopysuccess()"
     },
     {
@@ -423,7 +441,7 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html_fn:filterDetails",
-      "community": 1,
+      "community": 4,
       "norm_label": "filterdetails()"
     },
     {
@@ -432,7 +450,7 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html_fn:toggleTheme",
-      "community": 1,
+      "community": 3,
       "norm_label": "toggletheme()"
     },
     {
@@ -441,7 +459,7 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html_fn:closeResults",
-      "community": 1,
+      "community": 4,
       "norm_label": "closeresults()"
     },
     {
@@ -450,7 +468,7 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html_fn:updateProgress",
-      "community": 1,
+      "community": 4,
       "norm_label": "updateprogress()"
     },
     {
@@ -459,7 +477,7 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html_fn:setWorking",
-      "community": 1,
+      "community": 3,
       "norm_label": "setworking()"
     },
     {
@@ -468,7 +486,7 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html_fn:showResult",
-      "community": 1,
+      "community": 4,
       "norm_label": "showresult()"
     },
     {
@@ -477,8 +495,26 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html_fn:escapeHtml",
-      "community": 1,
+      "community": 3,
       "norm_label": "escapehtml()"
+    },
+    {
+      "label": "formatEta()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:formatEta",
+      "community": 4,
+      "norm_label": "formateta()"
+    },
+    {
+      "label": "refreshSafetyTimer()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:refreshSafetyTimer",
+      "community": 3,
+      "norm_label": "refreshsafetytimer()"
     },
     {
       "label": "run()",
@@ -486,7 +522,7 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html_fn:run",
-      "community": 1,
+      "community": 4,
       "norm_label": "run()"
     },
     {
@@ -495,7 +531,7 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html_fn:processNextBatch",
-      "community": 1,
+      "community": 4,
       "norm_label": "processnextbatch()"
     },
     {
@@ -504,7 +540,7 @@
       "source_file": "Sidebar.html",
       "_origin": "ast",
       "id": "html_fn:runDirectFallback",
-      "community": 1,
+      "community": 3,
       "norm_label": "rundirectfallback()"
     },
     {
@@ -513,7 +549,7 @@
       "source_file": "src/ui/Sidebar.html",
       "_origin": "ast",
       "id": "html:src/ui/Sidebar.html",
-      "community": 1,
+      "community": 4,
       "norm_label": "sidebar.html"
     },
     {
@@ -522,7 +558,7 @@
       "source_file": "graphify-out/graph.html",
       "_origin": "ast",
       "id": "html:graphify-out/graph.html",
-      "community": 4,
+      "community": 5,
       "norm_label": "graph.html"
     },
     {
@@ -531,7 +567,7 @@
       "source_file": "graphify-out/graph.html",
       "_origin": "ast",
       "id": "html_fn:esc",
-      "community": 4,
+      "community": 5,
       "norm_label": "esc()"
     },
     {
@@ -540,7 +576,7 @@
       "source_file": "graphify-out/graph.html",
       "_origin": "ast",
       "id": "html_fn:showInfo",
-      "community": 4,
+      "community": 5,
       "norm_label": "showinfo()"
     },
     {
@@ -549,7 +585,7 @@
       "source_file": "graphify-out/graph.html",
       "_origin": "ast",
       "id": "html_fn:focusNode",
-      "community": 4,
+      "community": 5,
       "norm_label": "focusnode()"
     },
     {
@@ -558,7 +594,7 @@
       "source_file": "graphify-out/graph.html",
       "_origin": "ast",
       "id": "html_fn:updateSelectAllState",
-      "community": 4,
+      "community": 5,
       "norm_label": "updateselectallstate()"
     },
     {
@@ -567,7 +603,7 @@
       "source_file": "graphify-out/graph.html",
       "_origin": "ast",
       "id": "html_fn:toggleAllCommunities",
-      "community": 4,
+      "community": 5,
       "norm_label": "toggleallcommunities()"
     },
     {
@@ -576,7 +612,7 @@
       "source_file": "graphify-out/graphify.html",
       "_origin": "ast",
       "id": "html:graphify-out/graphify.html",
-      "community": 4,
+      "community": 5,
       "norm_label": "graphify.html"
     },
     {
@@ -585,7 +621,7 @@
       "source_file": "CHANGELOG.md",
       "_origin": "ast",
       "id": "doc:CHANGELOG.md",
-      "community": 5,
+      "community": 6,
       "norm_label": "changelog.md"
     },
     {
@@ -594,7 +630,7 @@
       "source_file": "CONTRIBUTING.md",
       "_origin": "ast",
       "id": "doc:CONTRIBUTING.md",
-      "community": 6,
+      "community": 7,
       "norm_label": "contributing.md"
     },
     {
@@ -603,7 +639,7 @@
       "source_file": "README.md",
       "_origin": "ast",
       "id": "doc:README.md",
-      "community": 7,
+      "community": 8,
       "norm_label": "readme.md"
     }
   ],
@@ -731,6 +767,15 @@
       "source_file": "Code.gs",
       "weight": 1.0,
       "source": "gs:Code.gs",
+      "target": "fn:formatEta",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
       "target": "fn:getExecutionPlan",
       "confidence_score": 1.0
     },
@@ -831,6 +876,15 @@
       "weight": 1.0,
       "source": "gs:Code.gs",
       "target": "fn:processRows_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:refreshSafetyTimer",
       "confidence_score": 1.0
     },
     {
@@ -1163,6 +1217,15 @@
       "source_file": "Sidebar.html",
       "weight": 1.0,
       "source": "html:Sidebar.html",
+      "target": "html_fn:formatEta",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
       "target": "html_fn:onCopySuccess",
       "confidence_score": 1.0
     },
@@ -1173,6 +1236,15 @@
       "weight": 1.0,
       "source": "html:Sidebar.html",
       "target": "html_fn:processNextBatch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:refreshSafetyTimer",
       "confidence_score": 1.0
     },
     {
@@ -1343,6 +1415,24 @@
       "source_file": "src/ui/Sidebar.html",
       "weight": 1.0,
       "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:formatEta",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:refreshSafetyTimer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
       "target": "html_fn:run",
       "confidence_score": 1.0
     },
@@ -1456,5 +1546,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "e57fbf5d3273dd6b887191509033b287afd5d792"
+  "built_at_commit": "9fcd678fa99cb0b383ae185bd7aed84e98ce045d"
 }

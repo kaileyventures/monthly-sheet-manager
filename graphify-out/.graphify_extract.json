@@ -246,6 +246,20 @@
       "_origin": "ast"
     },
     {
+      "id": "fn:formatEta",
+      "label": "formatEta()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:refreshSafetyTimer",
+      "label": "refreshSafetyTimer()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
       "id": "fn:run",
       "label": "run()",
       "file_type": "code",
@@ -367,6 +381,20 @@
     {
       "id": "html_fn:escapeHtml",
       "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:formatEta",
+      "label": "formatEta()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:refreshSafetyTimer",
+      "label": "refreshSafetyTimer()",
       "file_type": "code",
       "source_file": "Sidebar.html",
       "_origin": "ast"
@@ -745,6 +773,22 @@
     },
     {
       "source": "gs:Code.gs",
+      "target": "fn:formatEta",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:refreshSafetyTimer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
       "target": "fn:run",
       "relation": "contains",
       "confidence": "EXTRACTED",
@@ -1009,6 +1053,22 @@
     },
     {
       "source": "html:Sidebar.html",
+      "target": "html_fn:formatEta",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:refreshSafetyTimer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
       "target": "html_fn:run",
       "relation": "contains",
       "confidence": "EXTRACTED",
@@ -1114,6 +1174,22 @@
     {
       "source": "html:src/ui/Sidebar.html",
       "target": "html_fn:escapeHtml",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:formatEta",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:refreshSafetyTimer",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/Sidebar.html",

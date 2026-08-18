@@ -1824,6 +1824,27 @@ function getManagerPanelHtml_() {
         .replace(/'/g, '&#039;');
     }
 
+    function formatEta(remainSec) {
+      if (remainSec <= 0) return 'Finishing…';
+      if (remainSec < 60) {
+        return '⏱️ ~' + remainSec + 's remaining';
+      }
+      var mins = Math.floor(remainSec / 60);
+      var secs = remainSec % 60;
+      if (secs === 0) {
+        return '⏱️ ~' + mins + 'm remaining';
+      }
+      return '⏱️ ~' + mins + 'm ' + secs + 's remaining';
+    }
+
+    function refreshSafetyTimer() {
+      if (safetyTimer) clearTimeout(safetyTimer);
+      safetyTimer = setTimeout(function() {
+        resetBusyState();
+        setWorking(false);
+      }, 90000);
+    }
+
     function run(fn, button) {
       if (busy) return;
       busy = true;
@@ -1832,10 +1853,7 @@ function getManagerPanelHtml_() {
         b.disabled = true;
       });
 
-      safetyTimer = setTimeout(function() {
-        resetBusyState();
-        setWorking(false);
-      }, 45000);
+      refreshSafetyTimer();
 
       var workingText =
         fn === 'createMonthlySheetsSafe' ? 'Creating monthly sheets…' :
@@ -1918,6 +1936,8 @@ function getManagerPanelHtml_() {
           }
 
           function processNextBatch() {
+            refreshSafetyTimer();
+
             if (completed >= totalRows) {
               var elapsedSec = Number(((Date.now() - startTime) / 1000).toFixed(1));
               accumulated.seconds = elapsedSec;
@@ -1931,12 +1951,12 @@ function getManagerPanelHtml_() {
                 resetBusyState();
                 setWorking(false);
                 showResult(accumulated);
-              }, 400);
+              }, 300);
               return;
             }
 
-            var nextRow = rows[completed];
-            var batchRows = [nextRow];
+            var batchSize = (fn === 'previewMonthlySheets') ? 5 : 2;
+            var batchRows = rows.slice(completed, completed + batchSize);
 
             google.script.run
               .withSuccessHandler(function(batchRes) {
@@ -1955,9 +1975,9 @@ function getManagerPanelHtml_() {
                 var elapsedMs = Date.now() - startTime;
                 var avgMsPerRow = elapsedMs / completed;
                 var remainMs = Math.ceil((totalRows - completed) * avgMsPerRow);
-                var remainSec = Math.max(1, Math.ceil(remainMs / 1000));
-                
-                var etaStr = completed === totalRows ? 'Finishing…' : ('⏱️ ~' + remainSec + 's remaining');
+                var remainSec = Math.max(0, Math.ceil(remainMs / 1000));
+
+                var etaStr = completed === totalRows ? 'Finishing…' : formatEta(remainSec);
                 var statusStr = 'Row ' + completed + ' of ' + totalRows + ' (' + Math.round(percent) + '%)';
 
                 updateProgress(percent, statusStr, etaStr);
@@ -1965,8 +1985,10 @@ function getManagerPanelHtml_() {
               })
               .withFailureHandler(function(err) {
                 completed += batchRows.length;
-                accumulated.errors += 1;
-                accumulated.details.push('Row ' + nextRow + ' → ERROR: ' + (err && err.message ? err.message : String(err)));
+                accumulated.errors += batchRows.length;
+                batchRows.forEach(function(r) {
+                  accumulated.details.push('Row ' + r + ' → ERROR: ' + (err && err.message ? err.message : String(err)));
+                });
 
                 var percent = (completed / totalRows) * 100;
                 updateProgress(percent, 'Row ' + completed + ' of ' + totalRows + ' (Error)', 'Continuing…');

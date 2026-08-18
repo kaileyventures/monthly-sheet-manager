@@ -28,7 +28,7 @@ flowchart TD
 
     LockCheck{"Script Lock Acquired?"}
     BusyWarn["⚠️ Return Already Running Warning"]
-    LoopRows["Iterate Rows"]
+    LoopRows["Iterate Rows (Adaptive Chunks)"]
 
     ValCheck{"Valid URL & Sheet Name?"}
     MarkErr["❌ Update Status: ERROR"]
@@ -86,7 +86,8 @@ flowchart TD
 
 | Icon | Category | Feature Name | Description | Key Benefit |
 | :---: | :--- | :--- | :--- | :--- |
-| 📊 | **Execution Engine** | **Real-Time Progress & ETA** | Live batch runner displaying 0-100% percentage, current row, & dynamic ETA calculation | Full transparency on execution time |
+| 📊 | **Execution Engine** | **Real-Time Progress & Formatted ETA** | Live batch runner displaying 0-100% percentage, current row, & dynamic m/s formatted ETA (`⏱️ ~10m 57s remaining`) | Full transparency on execution time |
+| ⚡ | **Batch Performance** | **Adaptive Batch Engine & Idle Timer** | Auto-refreshing safety timer (`refreshSafetyTimer`) with adaptive chunking (5 rows preview, 2 rows create) | Uninterrupted 100% completion across large sheets |
 | 🎛️ | **Interactive UI** | **Interactive Stat Pills** | Clickable summary pills (`CREATED`, `EXISTS`, `SKIPPED`, `ERRORS`) with active glowing highlights | Instant row-level log filtering |
 | 📋 | **Data Export** | **TSV / Excel 1-Click Copy** | Compact SVG button exporting log details formatted as Tab-Separated Values | Paste cleanly into Excel or Sheets |
 | 🎨 | **Design System** | **Glassmorphism & 5px Scrollbars** | High-end frosted glass cards, smooth blurs, and ultra-slim 5px custom scrollbars | Modern Apple-like desktop aesthetic |

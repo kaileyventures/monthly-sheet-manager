@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.0] - 2026-08-18
+
+### Fixed
+- **Uninterrupted Batch Execution**: Added `refreshSafetyTimer()` which auto-resets the idle safety timeout (90s) on every batch chunk completion, preventing premature execution cutoff mid-run (e.g. at row 6-7).
+
+### Added
+- **Formatted ETA (Minutes & Seconds)**: Updated progress remaining time display (`formatEta`) to convert times >60 seconds into formatted minutes and seconds (`⏱️ ~10m 57s remaining` / `⏱️ ~2m remaining`).
+- **Adaptive Batch Chunking**: Optimized execution speed by processing 5 rows per batch chunk for Safe Preview and 2 rows per chunk for Sheet Creation, reducing RPC network overhead by 80%.
+
 ## [1.4.0] - 2026-08-18
 
 ### Added
