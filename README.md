@@ -18,39 +18,66 @@
 
 ```mermaid
 flowchart TD
-    classDef startNode fill:#2563eb,stroke:#1d4ed8,color:#ffffff,stroke-width:2px;
-    classDef actionNode fill:#0284c7,stroke:#0369a1,color:#ffffff,stroke-width:2px;
-    classDef decisionNode fill:#f59e0b,stroke:#d97706,color:#ffffff,stroke-width:2px;
-    classDef successNode fill:#10b981,stroke:#059669,color:#ffffff,stroke-width:2px;
-    classDef errorNode fill:#f43f5e,stroke:#e11d48,color:#ffffff,stroke-width:2px;
+    Start["📱 User Opens Control Center"]
+    Trigger{"Choose Workflow Action"}
 
-    Start(["📱 User Opens Google Sheet Control Center"]) :::startNode
-    Start --> Trigger{"Choose Workflow Action"} :::decisionNode
+    FetchData["Read Control Sheet Rows & URLs"]
+    DryRun["Dry Run Validation & Sheet Check"]
+    FilterError["Filter Rows with ERROR Status"]
+    ClearLogs["Reset Status Columns & Headers"]
 
-    Trigger -->|"🚀 Create Monthly Sheets"| FetchData["Read Control Sheet Rows & URLs"] :::actionNode
-    Trigger -->|"🔍 Safe Preview"| DryRun["Dry Run Validation & Sheet Check"] :::actionNode
-    Trigger -->|"🔄 Retry Failed Rows"| FilterError["Filter Rows with ❌ ERROR Status"] :::actionNode
-    Trigger -->|"🧹 Clear Status"| ClearLogs["Reset Status Columns & Headers"] :::actionNode
+    LockCheck{"Script Lock Acquired?"}
+    BusyWarn["⚠️ Return Already Running Warning"]
+    LoopRows["Iterate Rows"]
 
-    FetchData --> LockCheck{"Script Lock Acquired?"} :::decisionNode
+    ValCheck{"Valid URL & Sheet Name?"}
+    MarkErr["❌ Update Status: ERROR"]
+    TargetCheck{"Target Month Sheet Exists?"}
+
+    ExistLink["⏭ Mark ALREADY EXISTS & Set Link"]
+    CopySheet["Copy Template Sheet to Target Spreadsheet"]
+
+    VerifySheet{"Sheet Created & Verified?"}
+    MarkCreated["✅ Mark CREATED & Add Hyperlink"]
+    DisplayPreview["📊 Display Summary & Detailed Card"]
+    StatusReset["✨ Status & Header Cleared"]
+
+    Start --> Trigger
+    Trigger -->|"Create Monthly Sheets"| FetchData
+    Trigger -->|"Safe Preview"| DryRun
+    Trigger -->|"Retry Failed Rows"| FilterError
+    Trigger -->|"Clear Status"| ClearLogs
+
+    FetchData --> LockCheck
     FilterError --> LockCheck
 
-    LockCheck -->|"No"| BusyWarn["⚠️ Return Already Running Warning"] :::errorNode
-    LockCheck -->|"Yes"| LoopRows["Iterate Rows (Month & URL)"] :::actionNode
+    LockCheck -->|"No"| BusyWarn
+    LockCheck -->|"Yes"| LoopRows
 
-    LoopRows --> ValCheck{"Valid URL & Sheet Name?"} :::decisionNode
-    ValCheck -->|"No"| MarkErr["❌ Update Status: ERROR"] :::errorNode
-    ValCheck -->|"Yes"| TargetCheck{"Target Month Sheet Exists?"} :::decisionNode
+    LoopRows --> ValCheck
+    ValCheck -->|"No"| MarkErr
+    ValCheck -->|"Yes"| TargetCheck
 
-    TargetCheck -->|"Yes"| ExistLink["⏭ Mark ALREADY EXISTS & Set Link"] :::successNode
-    TargetCheck -->|"No"| CopySheet["Copy Template Sheet to Target Spreadsheet"] :::actionNode
+    TargetCheck -->|"Yes"| ExistLink
+    TargetCheck -->|"No"| CopySheet
 
-    CopySheet --> VerifySheet{"Sheet Created & Verified?"} :::decisionNode
-    VerifySheet -->|"Success"| MarkCreated["✅ Mark CREATED & Add Hyperlink"] :::successNode
+    CopySheet --> VerifySheet
+    VerifySheet -->|"Success"| MarkCreated
     VerifySheet -->|"Failure"| MarkErr
 
-    DryRun --> DisplayPreview["📊 Display Summary & Detailed Card"] :::successNode
-    ClearLogs --> StatusReset["✨ Status & Header Cleared"] :::successNode
+    DryRun --> DisplayPreview
+    ClearLogs --> StatusReset
+
+    classDef default fill:#1f2937,stroke:#374151,color:#f3f4f6;
+    classDef primary fill:#1d4ed8,stroke:#3b82f6,color:#ffffff;
+    classDef success fill:#047857,stroke:#10b981,color:#ffffff;
+    classDef warning fill:#b45309,stroke:#f59e0b,color:#ffffff;
+    classDef danger fill:#be123c,stroke:#f43f5e,color:#ffffff;
+
+    class Start,FetchData,DryRun,FilterError,ClearLogs,LoopRows,CopySheet primary;
+    class ExistLink,MarkCreated,DisplayPreview,StatusReset success;
+    class Trigger,LockCheck,ValCheck,TargetCheck,VerifySheet warning;
+    class BusyWarn,MarkErr danger;
 ```
 
 ---
