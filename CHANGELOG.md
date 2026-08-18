@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-08-18
+
+### Added
+- **Auto-Open Sidebar on Sheet Load**: Updated `onOpen()` in `Code.gs` to automatically launch the Control Center sidebar panel when the Google Sheet is opened or refreshed, removing extra menu clicks.
+
 ## [1.1.0] - 2026-08-18
 
 ### Changed

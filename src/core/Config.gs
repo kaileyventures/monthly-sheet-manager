@@ -46,6 +46,13 @@ function onOpen() {
     .createMenu("📱 Monthly Sheet Manager")
     .addItem("✨ Open Control Center", "openManagerPanel")
     .addToUi();
+
+  // Auto-open sidebar automatically when sheet is opened
+  try {
+    openManagerPanel();
+  } catch (e) {
+    Logger.log("Auto-open sidebar skipped: " + e.message);
+  }
 }
 
 function openManagerPanel() {

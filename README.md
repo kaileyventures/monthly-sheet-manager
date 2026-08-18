@@ -84,6 +84,7 @@ flowchart TD
 
 ## 🌟 Key Features
 
+- **⚡ Direct Auto-Open Sidebar**: Automatically launches the **MIS Control Center** sidebar panel as soon as the Google Sheet is opened or refreshed.
 - **🚀 Automated Monthly Sheet Duplication**: Automatically clones a predefined `Template` sheet to target spreadsheets listed in the control sheet.
 - **💎 Ultra-Modern Glassmorphism UI**: High-end <b>MIS Control Center • K41L3Y</b> sidebar with smooth backdrop blurs and glowing accents.
 - **☀️ Light & 🌙 Dark Mode Support**: Dynamic theme toggle supporting a native Google Sheets light mode and midnight dark mode.
