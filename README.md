@@ -14,6 +14,47 @@
 
 ---
 
+## ⚡ Workflow Architecture
+
+```mermaid
+flowchart TD
+    classDef startNode fill:#2563eb,stroke:#1d4ed8,color:#ffffff,stroke-width:2px;
+    classDef actionNode fill:#0284c7,stroke:#0369a1,color:#ffffff,stroke-width:2px;
+    classDef decisionNode fill:#f59e0b,stroke:#d97706,color:#ffffff,stroke-width:2px;
+    classDef successNode fill:#10b981,stroke:#059669,color:#ffffff,stroke-width:2px;
+    classDef errorNode fill:#f43f5e,stroke:#e11d48,color:#ffffff,stroke-width:2px;
+
+    Start(["📱 User Opens Google Sheet Control Center"]) :::startNode
+    Start --> Trigger{"Choose Workflow Action"} :::decisionNode
+
+    Trigger -->|"🚀 Create Monthly Sheets"| FetchData["Read Control Sheet Rows & URLs"] :::actionNode
+    Trigger -->|"🔍 Safe Preview"| DryRun["Dry Run Validation & Sheet Check"] :::actionNode
+    Trigger -->|"🔄 Retry Failed Rows"| FilterError["Filter Rows with ❌ ERROR Status"] :::actionNode
+    Trigger -->|"🧹 Clear Status"| ClearLogs["Reset Status Columns & Headers"] :::actionNode
+
+    FetchData --> LockCheck{"Script Lock Acquired?"} :::decisionNode
+    FilterError --> LockCheck
+
+    LockCheck -->|"No"| BusyWarn["⚠️ Return Already Running Warning"] :::errorNode
+    LockCheck -->|"Yes"| LoopRows["Iterate Rows (Month & URL)"] :::actionNode
+
+    LoopRows --> ValCheck{"Valid URL & Sheet Name?"} :::decisionNode
+    ValCheck -->|"No"| MarkErr["❌ Update Status: ERROR"] :::errorNode
+    ValCheck -->|"Yes"| TargetCheck{"Target Month Sheet Exists?"} :::decisionNode
+
+    TargetCheck -->|"Yes"| ExistLink["⏭ Mark ALREADY EXISTS & Set Link"] :::successNode
+    TargetCheck -->|"No"| CopySheet["Copy Template Sheet to Target Spreadsheet"] :::actionNode
+
+    CopySheet --> VerifySheet{"Sheet Created & Verified?"} :::decisionNode
+    VerifySheet -->|"Success"| MarkCreated["✅ Mark CREATED & Add Hyperlink"] :::successNode
+    VerifySheet -->|"Failure"| MarkErr
+
+    DryRun --> DisplayPreview["📊 Display Summary & Detailed Card"] :::successNode
+    ClearLogs --> StatusReset["✨ Status & Header Cleared"] :::successNode
+```
+
+---
+
 ## 🌟 Key Features
 
 - **🚀 Automated Monthly Sheet Duplication**: Automatically clones a predefined `Template` sheet to target spreadsheets listed in the control sheet.
