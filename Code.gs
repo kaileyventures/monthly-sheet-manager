@@ -1,604 +1,4 @@
-/************************************************************
- * MONTHLY CALLER SHEET MANAGER
- *
- * MAIN / CONTROL SHEET HEADERS:
- * A = Caller Sheet URL
- * B = Month
- * C = Caller Name
- * D = TL Name
- *
- * TEMPLATE SHEET:
- * Template
- *
- * STATUS COLUMNS CREATED AUTOMATICALLY:
- * E = Status
- * F = Last Run
- * G = Created Sheet
- * H = Error
- ************************************************************/
-
-/* =========================================================
-   CONFIGURATION
-   ========================================================= */
-
-const CONFIG = {
-  TEMPLATE_SHEET_NAME: "Template",
-  HEADER_ROW: 1,
-  URL_HEADER: "Caller Sheet URL",
-  MONTH_HEADER: "Month",
-  CALLER_HEADER: "Caller Name",
-  TL_HEADER: "TL Name",
-  STATUS_HEADER: "Status",
-  TIME_HEADER: "Last Run",
-  CREATED_HEADER: "Created Sheet",
-  ERROR_HEADER: "Error"
-};
-
-/* =========================================================
-   ON OPEN MENU & SIDEBAR
-   ========================================================= */
-
-function onOpen() {
-  removeLegacyExecutionLog_();
-
-  SpreadsheetApp
-    .getUi()
-    .createMenu("📱 Monthly Sheet Manager")
-    .addItem("✨ Open Control Center", "openManagerPanel")
-    .addToUi();
-}
-
-function openManagerPanel() {
-  var html = HtmlService
-    .createHtmlOutput(getManagerPanelHtml_())
-    .setTitle("Sheet Manager");
-
-  SpreadsheetApp
-    .getUi()
-    .showSidebar(html);
-}
-
-/* =========================================================
-   CONTROL SHEET DETECTOR & UTILITIES
-   ========================================================= */
-
-function findControlSheet_() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheets = ss.getSheets();
-
-  for (var i = 0; i < sheets.length; i++) {
-    var sheet = sheets[i];
-
-    if (sheet.getName() === CONFIG.TEMPLATE_SHEET_NAME) {
-      continue;
-    }
-
-    if (sheet.getLastRow() < CONFIG.HEADER_ROW) {
-      continue;
-    }
-
-    var lastColumn = Math.max(sheet.getLastColumn(), 4);
-    var headers = sheet.getRange(CONFIG.HEADER_ROW, 1, 1, lastColumn).getDisplayValues()[0];
-
-    var normalized = headers.map(function(h) {
-      return String(h || "").trim().toLowerCase();
-    });
-
-    var hasURL = normalized.indexOf(CONFIG.URL_HEADER.toLowerCase()) !== -1;
-    var hasMonth = normalized.indexOf(CONFIG.MONTH_HEADER.toLowerCase()) !== -1;
-
-    if (hasURL && hasMonth) {
-      return sheet;
-    }
-  }
-
-  return null;
-}
-
-function findHeaderColumn_(sheet, headerName) {
-  var lastColumn = sheet.getLastColumn();
-  if (lastColumn < 1) return -1;
-
-  var headers = sheet.getRange(CONFIG.HEADER_ROW, 1, 1, lastColumn).getDisplayValues()[0];
-  var target = String(headerName).trim().toLowerCase();
-
-  for (var i = 0; i < headers.length; i++) {
-    if (String(headers[i] || "").trim().toLowerCase() === target) {
-      return i + 1;
-    }
-  }
-
-  return -1;
-}
-
-function ensureHeaderColumn_(sheet, headerName) {
-  var existing = findHeaderColumn_(sheet, headerName);
-  if (existing !== -1) return existing;
-
-  var newColumn = sheet.getLastColumn() + 1;
-  sheet.getRange(CONFIG.HEADER_ROW, newColumn).setValue(headerName);
-  sheet.getRange(CONFIG.HEADER_ROW, newColumn).setFontWeight("bold");
-
-  return newColumn;
-}
-
-/* =========================================================
-   STATUS UPDATERS
-   ========================================================= */
-
-function setStatus_(sheet, row, statusColumn, timeColumn, status, time) {
-  sheet.getRange(row, statusColumn).setValue(status);
-  sheet.getRange(row, timeColumn).setValue(time);
-}
-
-function setError_(sheet, row, statusColumn, timeColumn, errorColumn, message, time) {
-  setStatus_(sheet, row, statusColumn, timeColumn, "❌ ERROR", time);
-  sheet.getRange(row, errorColumn).setValue(message);
-}
-
-function setCreatedLink_(sheet, row, column, url) {
-  if (!url) return;
-  sheet.getRange(row, column).setFormula('=HYPERLINK("' + url + '","🔗 Open Sheet")');
-}
-
-/* =========================================================
-   CORE WORKFLOW: CREATE MONTHLY SHEETS
-   ========================================================= */
-
-function createMonthlySheetsSafe() {
-  var lock = LockService.getScriptLock();
-  if (!lock.tryLock(5000)) {
-    return {
-      type: "warning",
-      title: "Already Running",
-      message: "Another process is already running. Please wait.",
-      created: 0, existing: 0, skipped: 0, errors: 0
-    };
-  }
-
-  try {
-    return processRows_(null);
-  } finally {
-    lock.releaseLock();
-  }
-}
-
-function processRows_(selectedRows) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-
-  var controlSheet = findControlSheet_();
-  if (!controlSheet) {
-    return {
-      type: "error",
-      title: "Control Sheet Not Found",
-      message: "Required headers: Caller Sheet URL, Month, Caller Name and TL Name.",
-      created: 0, existing: 0, skipped: 0, errors: 1
-    };
-  }
-
-  var templateSheet = ss.getSheetByName(CONFIG.TEMPLATE_SHEET_NAME);
-  if (!templateSheet) {
-    return {
-      type: "error",
-      title: "Template Not Found",
-      message: "Sheet named 'Template' not found.",
-      created: 0, existing: 0, skipped: 0, errors: 1
-    };
-  }
-
-  var urlColumn = findHeaderColumn_(controlSheet, CONFIG.URL_HEADER);
-  var monthColumn = findHeaderColumn_(controlSheet, CONFIG.MONTH_HEADER);
-  var callerColumn = findHeaderColumn_(controlSheet, CONFIG.CALLER_HEADER);
-  var tlColumn = findHeaderColumn_(controlSheet, CONFIG.TL_HEADER);
-
-  var statusColumn = ensureHeaderColumn_(controlSheet, CONFIG.STATUS_HEADER);
-  var timeColumn = ensureHeaderColumn_(controlSheet, CONFIG.TIME_HEADER);
-  var createdColumn = ensureHeaderColumn_(controlSheet, CONFIG.CREATED_HEADER);
-  var errorColumn = ensureHeaderColumn_(controlSheet, CONFIG.ERROR_HEADER);
-
-  var lastRow = controlSheet.getLastRow();
-  if (lastRow <= CONFIG.HEADER_ROW) {
-    return {
-      type: "warning",
-      title: "No Data",
-      message: "Control sheet has no data rows to process.",
-      created: 0, existing: 0, skipped: 0, errors: 0
-    };
-  }
-
-  var lastColumn = controlSheet.getLastColumn();
-  var data = controlSheet.getRange(CONFIG.HEADER_ROW + 1, 1, lastRow - CONFIG.HEADER_ROW, lastColumn).getDisplayValues();
-  var formulas = controlSheet.getRange(CONFIG.HEADER_ROW + 1, urlColumn, lastRow - CONFIG.HEADER_ROW, 1).getFormulas();
-  var richTexts = controlSheet.getRange(CONFIG.HEADER_ROW + 1, urlColumn, lastRow - CONFIG.HEADER_ROW, 1).getRichTextValues();
-
-  var createdCount = 0;
-  var existingCount = 0;
-  var skippedCount = 0;
-  var errorCount = 0;
-  var startTime = new Date();
-
-  var rows = [];
-  if (selectedRows && selectedRows.length) {
-    rows = selectedRows.slice();
-  } else {
-    for (var r = CONFIG.HEADER_ROW + 1; r <= lastRow; r++) {
-      rows.push(r);
-    }
-  }
-
-  for (var x = 0; x < rows.length; x++) {
-    var row = rows[x];
-    var index = row - CONFIG.HEADER_ROW - 1;
-
-    if (index < 0 || index >= data.length) continue;
-
-    var urlDisplay = data[index][urlColumn - 1];
-    var month = String(data[index][monthColumn - 1] || "").trim();
-    var callerName = callerColumn > 0 ? String(data[index][callerColumn - 1] || "").trim() : "";
-    var tlName = tlColumn > 0 ? String(data[index][tlColumn - 1] || "").trim() : "";
-
-    var url = getSheetUrl_(urlDisplay, formulas[index][0], richTexts[index][0]);
-    var now = new Date();
-
-    if (!month) {
-      setStatus_(controlSheet, row, statusColumn, timeColumn, "⏭ SKIPPED - Month Blank", now);
-      controlSheet.getRange(row, errorColumn).clearContent();
-      skippedCount++;
-      continue;
-    }
-
-    if (!url) {
-      setStatus_(controlSheet, row, statusColumn, timeColumn, "⏭ SKIPPED - URL Blank", now);
-      skippedCount++;
-      continue;
-    }
-
-    if (!isValidSheetName_(month)) {
-      setError_(controlSheet, row, statusColumn, timeColumn, errorColumn, "Invalid sheet name: " + month, now);
-      errorCount++;
-      continue;
-    }
-
-    var spreadsheetId = extractSpreadsheetId_(url);
-    if (!spreadsheetId) {
-      setError_(controlSheet, row, statusColumn, timeColumn, errorColumn, "Invalid Google Sheet URL", now);
-      errorCount++;
-      continue;
-    }
-
-    setStatus_(controlSheet, row, statusColumn, timeColumn, "⏳ PROCESSING", now);
-    controlSheet.getRange(row, errorColumn).clearContent();
-
-    try {
-      var destSS = SpreadsheetApp.openById(spreadsheetId);
-      var existing = destSS.getSheetByName(month);
-
-      if (existing) {
-        var existingUrl = buildSheetUrl_(destSS, existing);
-        setStatus_(controlSheet, row, statusColumn, timeColumn, "⏭ ALREADY EXISTS", now);
-        setCreatedLink_(controlSheet, row, createdColumn, existingUrl);
-        existingCount++;
-        continue;
-      }
-
-      var newSheet = null;
-      try {
-        newSheet = templateSheet.copyTo(destSS);
-        newSheet.setName(month);
-        SpreadsheetApp.flush();
-
-        var verifiedSheet = destSS.getSheetByName(month);
-        if (!verifiedSheet) {
-          throw new Error("Monthly sheet was created but could not be verified: " + month);
-        }
-        newSheet = verifiedSheet;
-      } catch (copyError) {
-        if (newSheet) {
-          try { destSS.deleteSheet(newSheet); } catch (delErr) {}
-        }
-        throw copyError;
-      }
-
-      var newUrl = buildSheetUrl_(destSS, newSheet);
-      setCreatedLink_(controlSheet, row, createdColumn, newUrl);
-      setStatus_(controlSheet, row, statusColumn, timeColumn, "✅ CREATED", now);
-      createdCount++;
-
-    } catch (e) {
-      var message = e && e.message ? e.message : String(e);
-
-      if (isDuplicateSheetError_(message)) {
-        setStatus_(controlSheet, row, statusColumn, timeColumn, "⏭ ALREADY EXISTS", now);
-        existingCount++;
-        continue;
-      }
-
-      setError_(controlSheet, row, statusColumn, timeColumn, errorColumn, message, now);
-      errorCount++;
-    }
-  }
-
-  var seconds = (new Date().getTime() - startTime.getTime()) / 1000;
-
-  return {
-    type: errorCount > 0 ? "warning" : "success",
-    title: errorCount > 0 ? "Completed with Errors" : "Process Complete",
-    message: "Monthly sheet processing completed.",
-    created: createdCount,
-    existing: existingCount,
-    skipped: skippedCount,
-    errors: errorCount,
-    seconds: Number(seconds.toFixed(1))
-  };
-}
-
-/* =========================================================
-   PREVIEW WORKFLOW
-   ========================================================= */
-
-function previewMonthlySheets() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var controlSheet = findControlSheet_();
-
-  if (!controlSheet) {
-    return {
-      type: "error",
-      title: "Control Sheet Not Found",
-      message: "Required headers: Caller Sheet URL, Month, Caller Name and TL Name.",
-      created: 0, existing: 0, skipped: 0, errors: 1
-    };
-  }
-
-  var urlColumn = findHeaderColumn_(controlSheet, CONFIG.URL_HEADER);
-  var monthColumn = findHeaderColumn_(controlSheet, CONFIG.MONTH_HEADER);
-  var callerColumn = findHeaderColumn_(controlSheet, CONFIG.CALLER_HEADER);
-
-  var lastRow = controlSheet.getLastRow();
-  var data = controlSheet.getRange(2, 1, lastRow - 1, controlSheet.getLastColumn()).getDisplayValues();
-
-  var createCount = 0;
-  var existingCount = 0;
-  var blankCount = 0;
-  var errorCount = 0;
-  var preview = [];
-
-  for (var i = 0; i < data.length; i++) {
-    var row = i + 2;
-    var url = String(data[i][urlColumn - 1] || "").trim();
-    var month = String(data[i][monthColumn - 1] || "").trim();
-    var caller = callerColumn > 0 ? String(data[i][callerColumn - 1] || "").trim() : "";
-
-    if (!month) {
-      blankCount++;
-      continue;
-    }
-
-    if (!url) {
-      blankCount++;
-      preview.push("Row " + row + " → " + caller + " → URL BLANK");
-      continue;
-    }
-
-    var id = extractSpreadsheetId_(url);
-    if (!id) {
-      errorCount++;
-      preview.push("Row " + row + " → " + caller + " → INVALID URL");
-      continue;
-    }
-
-    try {
-      var destSS = SpreadsheetApp.openById(id);
-      var existing = destSS.getSheetByName(month);
-
-      if (existing) {
-        existingCount++;
-        preview.push("Row " + row + " → " + caller + " → " + month + " → EXISTS");
-      } else {
-        createCount++;
-        preview.push("Row " + row + " → " + caller + " → " + month + " → CREATE");
-      }
-    } catch (e) {
-      errorCount++;
-      preview.push("Row " + row + " → " + caller + " → ACCESS ERROR");
-    }
-  }
-
-  return {
-    type: errorCount > 0 ? "warning" : "success",
-    title: "Preview Only",
-    message: "No changes were made. This is only a preview.",
-    created: createCount,
-    existing: existingCount,
-    skipped: blankCount,
-    errors: errorCount,
-    details: preview.slice(0, 30),
-    more: Math.max(0, preview.length - 30)
-  };
-}
-
-/* =========================================================
-   RETRY WORKFLOW
-   ========================================================= */
-
-function retryFailedRows() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var controlSheet = findControlSheet_();
-
-  if (!controlSheet) {
-    return {
-      type: "error",
-      title: "Control Sheet Not Found",
-      message: "Control sheet not found.",
-      created: 0, existing: 0, skipped: 0, errors: 1
-    };
-  }
-
-  var statusColumn = findHeaderColumn_(controlSheet, CONFIG.STATUS_HEADER);
-  if (statusColumn === -1) {
-    return {
-      type: "warning",
-      title: "Nothing to Retry",
-      message: "Status column not found.",
-      created: 0, existing: 0, skipped: 0, errors: 0
-    };
-  }
-
-  var lastRow = controlSheet.getLastRow();
-  var statuses = controlSheet.getRange(2, statusColumn, lastRow - 1, 1).getDisplayValues();
-  var failedRows = [];
-
-  for (var i = 0; i < statuses.length; i++) {
-    if (String(statuses[i][0] || "").indexOf("❌ ERROR") === 0) {
-      failedRows.push(i + 2);
-    }
-  }
-
-  if (failedRows.length === 0) {
-    return {
-      type: "success",
-      title: "Nothing to Retry",
-      message: "No failed rows found.",
-      created: 0, existing: 0, skipped: 0, errors: 0
-    };
-  }
-
-  var lock = LockService.getScriptLock();
-  if (!lock.tryLock(5000)) {
-    return {
-      type: "warning",
-      title: "Already Running",
-      message: "Another process is already running.",
-      created: 0, existing: 0, skipped: 0, errors: 0
-    };
-  }
-
-  try {
-    return processRows_(failedRows);
-  } finally {
-    lock.releaseLock();
-  }
-}
-
-/* =========================================================
-   CLEAR STATUS WORKFLOW
-   ========================================================= */
-
-function clearProcessingStatus() {
-  var sheet = findControlSheet_();
-
-  if (!sheet) {
-    return {
-      type: "error",
-      title: "Control Sheet Not Found",
-      message: "Control sheet not found.",
-      created: 0, existing: 0, skipped: 0, errors: 1
-    };
-  }
-
-  var statusColumn = findHeaderColumn_(sheet, CONFIG.STATUS_HEADER);
-  var timeColumn = findHeaderColumn_(sheet, CONFIG.TIME_HEADER);
-  var createdColumn = findHeaderColumn_(sheet, CONFIG.CREATED_HEADER);
-  var errorColumn = findHeaderColumn_(sheet, CONFIG.ERROR_HEADER);
-
-  var lastRow = sheet.getLastRow();
-  if (lastRow < 1) {
-    return {
-      type: "success",
-      title: "Nothing to Clear",
-      message: "There is no status data to clear.",
-      created: 0, existing: 0, skipped: 0, errors: 0
-    };
-  }
-
-  [statusColumn, timeColumn, createdColumn, errorColumn].forEach(function(column) {
-    if (column !== -1) {
-      sheet.getRange(1, column, lastRow, 1).clearContent();
-    }
-  });
-
-  return {
-    type: "success",
-    title: "Status Cleared",
-    message: "Status, Last Run, Created Sheet and Error data + headers have been removed.",
-    created: 0, existing: 0, skipped: 0, errors: 0
-  };
-}
-
-/* =========================================================
-   HELPERS & CLEANUP
-   ========================================================= */
-
-function getSheetUrl_(displayValue, formula, richText) {
-  if (displayValue) {
-    var text = String(displayValue).trim();
-    if (/^https?:\/\//i.test(text)) return text;
-  }
-
-  if (formula) {
-    var match = formula.match(/HYPERLINK\s*\(\s*"([^"]+)"/i);
-    if (match && match[1]) return match[1];
-  }
-
-  if (richText) {
-    try {
-      var direct = richText.getLinkUrl();
-      if (direct) return direct;
-
-      var runs = richText.getRuns();
-      if (runs) {
-        for (var i = 0; i < runs.length; i++) {
-          var runLink = runs[i].getLinkUrl();
-          if (runLink) return runLink;
-        }
-      }
-    } catch (e) {
-      Logger.log("Rich text URL error: " + e.message);
-    }
-  }
-
-  return null;
-}
-
-function extractSpreadsheetId_(url) {
-  if (!url) return null;
-  var match = String(url).match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
-  return (match && match[1]) ? match[1] : null;
-}
-
-function buildSheetUrl_(spreadsheet, sheet) {
-  var sheetName = sheet.getName();
-  var verifiedSheet = spreadsheet.getSheetByName(sheetName);
-  if (!verifiedSheet) {
-    throw new Error("Created sheet could not be found: " + sheetName);
-  }
-  var gid = verifiedSheet.getSheetId();
-  return spreadsheet.getUrl() + "#gid=" + gid;
-}
-
-function isValidSheetName_(name) {
-  if (!name || name.length > 100) return false;
-  return !/[\\\/\?\*\[\]:]/.test(name);
-}
-
-function isDuplicateSheetError_(message) {
-  return message && message.indexOf("A sheet with the name") !== -1;
-}
-
-function removeLegacyExecutionLog_() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var logSheet = ss.getSheetByName("Execution Log");
-  if (!logSheet) return;
-  if (ss.getSheets().length > 1) {
-    ss.deleteSheet(logSheet);
-  }
-}
-
-/* =========================================================
-   EMBEDDED SINGLE-FILE HTML SIDEBAR PANEL
-   ========================================================= */
-
-function getManagerPanelHtml_() {
-  return `<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
   <base target="_top">
@@ -611,9 +11,12 @@ function getManagerPanelHtml_() {
     :root {
       --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
       
-      /* Dark Mode Variables */
+      /* Dark Mode Glassmorphism Variables */
+      --bg-gradient: radial-gradient(180px 180px at 105% 2%, rgba(10,132,255,0.26), transparent 70%),
+                     radial-gradient(210px 210px at -10% 18%, rgba(90,200,250,0.20), transparent 70%),
+                     radial-gradient(190px 190px at 85% 74%, rgba(52,199,89,0.13), transparent 72%),
+                     linear-gradient(135deg, #090d16 0%, #0f172a 45%, #111c35 100%);
       --bg-solid: #090d16;
-      --bg-gradient: linear-gradient(135deg, #090d16 0%, #0f172a 45%, #111c35 100%);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
@@ -626,30 +29,35 @@ function getManagerPanelHtml_() {
 
       --glass-bg: rgba(30, 41, 59, 0.48);
       --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-shadow: 0 16px 38px rgba(0, 0, 0, 0.35);
       
       --btn-bg: rgba(255, 255, 255, 0.04);
       --btn-border: rgba(255, 255, 255, 0.09);
-      --btn-hover: rgba(255, 255, 255, 0.08);
+      --btn-hover: rgba(255, 255, 255, 0.09);
+      --btn-hover-border: rgba(255, 255, 255, 0.22);
       
       --results-bg: rgba(15, 23, 42, 0.85);
       --pill-bg: rgba(255, 255, 255, 0.03);
       --pill-border: rgba(255, 255, 255, 0.06);
 
-      --radius-xl: 18px;
-      --radius-lg: 12px;
-      --radius-md: 8px;
+      --radius-xl: 20px;
+      --radius-lg: 14px;
+      --radius-md: 10px;
 
       --glow-a: rgba(99, 102, 241, 0.25);
       --glow-b: rgba(56, 189, 248, 0.2);
     }
 
-    /* Clean Light Theme Overrides (Default) */
+    /* Adaptive Light Glassmorphism Overrides (Default) */
     [data-theme="light"] {
-      --bg-solid: #f8f9fa;
-      --bg-gradient: none;
-      --text-main: #1f2937;
-      --text-muted: #4b5563;
-      --text-dim: #6b7280;
+      --bg-gradient: radial-gradient(180px 180px at 105% 2%, rgba(10,132,255,0.22), transparent 70%),
+                     radial-gradient(210px 210px at -10% 18%, rgba(90,200,250,0.18), transparent 70%),
+                     radial-gradient(190px 190px at 85% 74%, rgba(52,199,89,0.12), transparent 72%),
+                     linear-gradient(145deg, #edf4ff 0%, #f6f7fb 42%, #eef8f4 100%);
+      --bg-solid: #f4f7fc;
+      --text-main: #0b1220;
+      --text-muted: #667085;
+      --text-dim: #7a8494;
       
       --accent-blue: #0284c7;
       --accent-indigo: #4338ca;
@@ -657,19 +65,21 @@ function getManagerPanelHtml_() {
       --accent-amber: #d97706;
       --accent-rose: #dc2626;
 
-      --glass-bg: #ffffff;
-      --glass-border: #e5e7eb;
+      --glass-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.42));
+      --glass-border: rgba(255, 255, 255, 0.85);
+      --glass-shadow: 0 18px 45px rgba(31, 41, 55, 0.12);
       
-      --btn-bg: #f3f4f6;
-      --btn-border: #d1d5db;
-      --btn-hover: #e5e7eb;
+      --btn-bg: rgba(255, 255, 255, 0.52);
+      --btn-border: rgba(255, 255, 255, 0.75);
+      --btn-hover: rgba(255, 255, 255, 0.85);
+      --btn-hover-border: rgba(255, 255, 255, 0.95);
       
-      --results-bg: #ffffff;
-      --pill-bg: #f9fafb;
-      --pill-border: #e5e7eb;
+      --results-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.65));
+      --pill-bg: rgba(245, 247, 250, 0.65);
+      --pill-border: rgba(255, 255, 255, 0.8);
 
-      --glow-a: transparent;
-      --glow-b: transparent;
+      --glow-a: rgba(10, 132, 255, 0.15);
+      --glow-b: rgba(52, 199, 89, 0.12);
     }
 
     * {
@@ -684,30 +94,46 @@ function getManagerPanelHtml_() {
       background-image: var(--bg-gradient);
       color: var(--text-main);
       min-height: 100vh;
-      padding: 14px 12px 20px;
+      padding: 16px 14px 24px;
       overflow-x: hidden;
       position: relative;
       -webkit-font-smoothing: antialiased;
-      transition: background 0.3s ease, color 0.3s ease;
+      transition: background 0.4s ease, color 0.4s ease;
     }
 
+    /* Ambient Floating Glass Blur Circles */
     body::before {
       content: "";
       position: fixed;
-      width: 200px;
-      height: 200px;
+      width: 180px;
+      height: 180px;
       top: -50px;
       right: -60px;
       border-radius: 50%;
-      background: radial-gradient(circle, var(--glow-a) 0%, transparent 70%);
-      filter: blur(40px);
+      background: var(--glow-a);
+      filter: blur(36px);
       pointer-events: none;
+      animation: floatGlowA 8s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      width: 160px;
+      height: 160px;
+      bottom: 40px;
+      left: -70px;
+      border-radius: 50%;
+      background: var(--glow-b);
+      filter: blur(34px);
+      pointer-events: none;
+      animation: floatGlowB 10s ease-in-out infinite alternate;
     }
 
     .app-container {
       position: relative;
       z-index: 1;
-      animation: fadeIn .4s ease;
+      animation: fadeIn .45s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     /* Header Section */
@@ -715,38 +141,40 @@ function getManagerPanelHtml_() {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       padding: 2px 0;
     }
 
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       min-width: 0;
     }
 
     .brand-icon-wrapper {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, rgba(99,102,241,0.2) 0%, rgba(56,189,248,0.12) 100%);
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.7), rgba(255,255,255,0.3));
       border: 1px solid var(--glass-border);
       display: grid;
       place-items: center;
-      font-size: 17px;
+      font-size: 18px;
       flex-shrink: 0;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 8px 20px rgba(10,132,255,0.15);
+      backdrop-filter: blur(12px);
     }
 
-    [data-theme="light"] .brand-icon-wrapper {
-      background: #eff6ff;
-      border-color: #bfdbfe;
+    [data-theme="dark"] .brand-icon-wrapper {
+      background: linear-gradient(135deg, rgba(99,102,241,0.25) 0%, rgba(56,189,248,0.15) 100%);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
 
     .brand-titles h1 {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 800;
-      letter-spacing: -0.3px;
+      letter-spacing: -0.35px;
       color: var(--text-main);
       white-space: nowrap;
       overflow: hidden;
@@ -755,7 +183,7 @@ function getManagerPanelHtml_() {
     }
 
     .brand-titles p {
-      font-size: 10px;
+      font-size: 10.5px;
       color: var(--text-muted);
       font-weight: 500;
       white-space: nowrap;
@@ -769,60 +197,66 @@ function getManagerPanelHtml_() {
     }
 
     .theme-toggle-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
       border: 1px solid var(--btn-border);
       background: var(--btn-bg);
       color: var(--text-main);
       display: grid;
       place-items: center;
       cursor: pointer;
-      font-size: 14px;
-      transition: all 0.2s ease;
+      font-size: 15px;
+      backdrop-filter: blur(16px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 4px 12px rgba(0,0,0,0.06);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       outline: none;
     }
 
     .theme-toggle-btn:hover {
       background: var(--btn-hover);
-      transform: scale(1.05);
+      border-color: var(--btn-hover-border);
+      transform: scale(1.08) translateY(-1px);
     }
 
-    /* Cards */
+    /* Ultra Glassmorphism Cards */
     .glass-card {
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-xl);
-      padding: 14px;
-      margin-bottom: 12px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-      transition: all 0.25s ease;
+      padding: 15px;
+      margin-bottom: 14px;
+      backdrop-filter: blur(25px) saturate(145%);
+      -webkit-backdrop-filter: blur(25px) saturate(145%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), var(--glass-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .card-label {
       font-size: 9.5px;
       font-weight: 800;
-      letter-spacing: 1px;
+      letter-spacing: 1.1px;
       text-transform: uppercase;
       color: var(--text-dim);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
     }
 
     .card-label::after {
       content: "";
       flex: 1;
       height: 1px;
-      background: var(--glass-border);
+      background: linear-gradient(90deg, var(--text-dim), transparent);
+      opacity: 0.2;
     }
 
-    /* Buttons */
+    /* Buttons Stack */
     .button-stack {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 9px;
     }
 
     .btn {
@@ -830,116 +264,149 @@ function getManagerPanelHtml_() {
       width: 100%;
       border: 1px solid var(--btn-border);
       border-radius: var(--radius-lg);
-      padding: 10px 12px;
+      padding: 11px 13px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 11px;
       font-family: inherit;
       font-size: 12.5px;
-      font-weight: 700;
+      font-weight: 750;
       color: var(--text-main);
       background: var(--btn-bg);
+      backdrop-filter: blur(14px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 5px 15px rgba(31, 41, 55, 0.05);
       cursor: pointer;
       outline: none;
       white-space: nowrap;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 20%, rgba(255, 255, 255, 0.45) 50%, transparent 80%);
+      transform: translateX(-130%);
+      transition: transform 0.55s ease;
+      pointer-events: none;
+    }
+
+    .btn:hover:not(:disabled)::before {
+      transform: translateX(130%);
     }
 
     .btn:hover:not(:disabled) {
       background: var(--btn-hover);
-      border-color: rgba(0, 0, 0, 0.2);
-      transform: translateY(-1px);
+      border-color: var(--btn-hover-border);
+      transform: translateY(-2px) scale(1.008);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 9px 22px rgba(31, 41, 55, 0.1);
     }
 
     .btn:active:not(:disabled) {
-      transform: translateY(0) scale(0.98);
+      transform: scale(0.975);
     }
 
     .btn:disabled {
-      opacity: 0.45;
+      opacity: 0.48;
       cursor: not-allowed;
     }
 
     .btn-icon {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border-radius: var(--radius-md);
       display: grid;
       place-items: center;
       font-size: 14px;
-      background: rgba(0, 0, 0, 0.04);
-      border: 1px solid var(--btn-border);
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
       flex-shrink: 0;
+      transition: transform 0.25s ease;
+    }
+
+    [data-theme="dark"] .btn-icon {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn:hover:not(:disabled) .btn-icon {
+      transform: scale(1.1);
     }
 
     /* Button Variants */
     .btn-primary {
-      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #0284c7 100%);
-      border-color: rgba(255, 255, 255, 0.2);
       color: #ffffff;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+      border-color: rgba(255, 255, 255, 0.34);
+      background: linear-gradient(135deg, #087cf1 0%, #168cff 52%, #0a84ff 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 10px 24px rgba(10, 132, 255, 0.25);
     }
 
-    [data-theme="light"] .btn-primary {
-      background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-      border-color: #2563eb;
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #066ecb 0%, #0d7ee6 52%, #0875e1 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 12px 28px rgba(10, 132, 255, 0.38);
     }
 
     .btn-primary .btn-icon {
       background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.3);
     }
 
     .btn-amber {
-      background: rgba(245, 158, 11, 0.12);
-      border-color: rgba(245, 158, 11, 0.3);
-      color: var(--accent-amber);
+      color: #ffffff;
+      background: linear-gradient(135deg, #ff9500 0%, #ffab18 100%);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 10px 24px rgba(255, 149, 0, 0.22);
     }
 
-    [data-theme="light"] .btn-amber {
-      background: #fffbeb;
-      border-color: #fde68a;
-      color: #b45309;
+    .btn-amber:hover:not(:disabled) {
+      background: linear-gradient(135deg, #e08300 0%, #f09e0a 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 12px 28px rgba(255, 149, 0, 0.32);
     }
 
     .btn-amber .btn-icon {
-      background: rgba(245, 158, 11, 0.15);
-      border-color: rgba(245, 158, 11, 0.2);
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
     }
 
     .btn-danger {
-      background: rgba(244, 63, 94, 0.1);
-      border-color: rgba(244, 63, 94, 0.25);
-      color: var(--accent-rose);
+      color: #ffffff;
+      background: linear-gradient(135deg, #ff3b30 0%, #ff5e55 100%);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 10px 24px rgba(255, 59, 48, 0.22);
     }
 
-    [data-theme="light"] .btn-danger {
-      background: #fef2f2;
-      border-color: #fecaca;
-      color: #dc2626;
+    .btn-danger:hover:not(:disabled) {
+      background: linear-gradient(135deg, #e02d23 0%, #ed4d44 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 12px 28px rgba(255, 59, 48, 0.32);
     }
 
     .btn-danger .btn-icon {
-      background: rgba(244, 63, 94, 0.15);
-      border-color: rgba(244, 63, 94, 0.2);
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
     }
 
-    /* Working Banner */
+    /* Working Progress Banner */
     .working-box {
       display: none;
       align-items: center;
       gap: 12px;
       padding: 12px 14px;
       border-radius: var(--radius-lg);
-      background: rgba(30, 58, 138, 0.2);
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      margin-bottom: 12px;
-      animation: slideDown 0.3s ease;
+      color: #086bc9;
+      background: rgba(235, 246, 255, 0.68);
+      border: 1px solid var(--glass-border);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), var(--glass-shadow);
+      backdrop-filter: blur(22px);
+      margin-bottom: 14px;
+      animation: slideDown 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    [data-theme="light"] .working-box {
-      background: #eff6ff;
-      border-color: #bfdbfe;
+    [data-theme="dark"] .working-box {
+      color: var(--accent-blue);
+      background: rgba(30, 58, 138, 0.35);
+      border-color: rgba(59, 130, 246, 0.35);
     }
 
     .working-box.show { display: flex; }
@@ -948,38 +415,38 @@ function getManagerPanelHtml_() {
       width: 18px;
       height: 18px;
       flex-shrink: 0;
-      border: 2px solid rgba(56, 189, 248, 0.2);
+      border: 2.5px solid rgba(10, 132, 255, 0.2);
       border-top-color: var(--accent-blue);
       border-right-color: var(--accent-indigo);
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      animation: spin 0.75s linear infinite;
     }
 
     .working-text b {
       display: block;
       font-size: 12px;
-      font-weight: 700;
-      color: var(--accent-blue);
+      font-weight: 750;
     }
 
     .working-text span {
       display: block;
-      font-size: 10px;
+      font-size: 9.5px;
       color: var(--text-muted);
       margin-top: 1px;
     }
 
-    /* Results Dashboard */
+    /* Execution Results Card */
     .results-card {
       display: none;
       position: relative;
       border-radius: var(--radius-xl);
-      padding: 14px;
-      margin-bottom: 12px;
+      padding: 15px;
+      margin-bottom: 14px;
       background: var(--results-bg);
       border: 1px solid var(--glass-border);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      animation: resultIn 0.35s ease;
+      backdrop-filter: blur(30px) saturate(155%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), var(--glass-shadow);
+      animation: resultIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .results-card.show { display: block; }
@@ -1020,42 +487,44 @@ function getManagerPanelHtml_() {
     }
 
     .status-badge-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
       display: grid;
       place-items: center;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 800;
       flex-shrink: 0;
+      box-shadow: inset 0 1px 0 #fff;
     }
 
     .status-badge-icon.success {
-      background: rgba(16, 185, 129, 0.14);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: var(--accent-emerald);
+      color: #178b48;
+      background: linear-gradient(145deg, rgba(232,250,239,0.92), rgba(210,244,222,0.62));
+      border: 1px solid rgba(52,199,89,0.3);
     }
 
     .status-badge-icon.warning {
-      background: rgba(245, 158, 11, 0.14);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      color: var(--accent-amber);
+      color: #bd6b00;
+      background: linear-gradient(145deg, rgba(255,245,224,0.94), rgba(255,231,193,0.65));
+      border: 1px solid rgba(255,149,0,0.3);
     }
 
     .status-badge-icon.error {
-      background: rgba(244, 63, 94, 0.14);
-      border: 1px solid rgba(244, 63, 94, 0.3);
-      color: var(--accent-rose);
+      color: #d62f27;
+      background: linear-gradient(145deg, rgba(255,237,235,0.94), rgba(255,215,211,0.66));
+      border: 1px solid rgba(255,59,48,0.3);
     }
 
     .results-title-group h2 {
-      font-size: 13px;
-      font-weight: 800;
+      font-size: 13.5px;
+      font-weight: 780;
+      letter-spacing: -0.25px;
       color: var(--text-main);
     }
 
     .results-title-group p {
-      font-size: 10.5px;
+      font-size: 9.5px;
       color: var(--text-muted);
       margin-top: 1px;
     }
@@ -1063,7 +532,7 @@ function getManagerPanelHtml_() {
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
+      gap: 7px;
       margin-bottom: 10px;
     }
 
@@ -1072,7 +541,11 @@ function getManagerPanelHtml_() {
       border: 1px solid var(--pill-border);
       border-radius: var(--radius-md);
       padding: 8px 10px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+      transition: transform 0.2s ease;
     }
+
+    .stat-pill:hover { transform: translateY(-1px); }
 
     .stat-value {
       font-size: 16px;
@@ -1082,11 +555,11 @@ function getManagerPanelHtml_() {
     }
 
     .stat-label {
-      font-size: 9px;
-      font-weight: 600;
+      font-size: 8.5px;
+      font-weight: 700;
       color: var(--text-dim);
       text-transform: uppercase;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.5px;
       margin-top: 3px;
     }
 
@@ -1094,38 +567,41 @@ function getManagerPanelHtml_() {
       background: var(--pill-bg);
       border: 1px solid var(--pill-border);
       border-radius: var(--radius-md);
-      padding: 8px 10px;
-      font-size: 11px;
+      padding: 9px 11px;
+      font-size: 10.5px;
       color: var(--text-muted);
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     .details-box {
       margin-top: 8px;
-      max-height: 120px;
+      max-height: 130px;
       overflow-y: auto;
       background: var(--pill-bg);
       border: 1px solid var(--pill-border);
       border-radius: var(--radius-md);
-      padding: 8px;
-      font-size: 9.5px;
+      padding: 8px 10px;
+      font-size: 9px;
       font-family: monospace;
       color: var(--text-main);
       white-space: pre-wrap;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     .footer {
       text-align: center;
-      font-size: 9.5px;
+      font-size: 9px;
       color: var(--text-dim);
       padding: 6px 0;
+      letter-spacing: 0.2px;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes resultIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px) scale(0.985); } to { opacity: 1; transform: none; } }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+    @keyframes resultIn { from { opacity: 0; transform: translateY(10px) scale(0.97); filter: blur(3px); } to { opacity: 1; transform: none; filter: none; } }
+    @keyframes floatGlowA { 0%, 100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(-8px,10px,0); } }
+    @keyframes floatGlowB { 0%, 100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(10px,-7px,0); } }
   </style>
 </head>
 <body>
@@ -1137,7 +613,7 @@ function getManagerPanelHtml_() {
         <div class="brand-icon-wrapper">📋</div>
         <div class="brand-titles">
           <h1>Sheet Manager</h1>
-          <p>Control Panel</p>
+          <p>Glass Control Center</p>
         </div>
       </div>
       
@@ -1208,7 +684,7 @@ function getManagerPanelHtml_() {
 
     <!-- Footer Note -->
     <div class="footer">
-      Sheet Manager • Light & Dark Mode
+      Glass Control Center • Adaptive Themes
     </div>
   </div>
 
