@@ -1,0 +1,15 @@
+# OS / System files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Clasp / Node temporary credentials
+.clasp.json
+.claspignore
+node_modules/
+npm-debug.log
