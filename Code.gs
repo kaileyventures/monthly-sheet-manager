@@ -56,13 +56,13 @@ function onOpen() {
 }
 
 function openManagerPanel() {
-  var html = HtmlService
-    .createHtmlOutput(getManagerPanelHtml_())
-    .setTitle("Sheet Manager");
-
-  SpreadsheetApp
-    .getUi()
-    .showSidebar(html);
+  var html;
+  try {
+    html = HtmlService.createHtmlOutputFromFile("Sidebar").setTitle("Sheet Manager");
+  } catch (e) {
+    html = HtmlService.createHtmlOutput(getManagerPanelHtml_()).setTitle("Sheet Manager");
+  }
+  SpreadsheetApp.getUi().showSidebar(html);
 }
 
 /* =========================================================
@@ -222,6 +222,7 @@ function processRows_(selectedRows) {
   var existingCount = 0;
   var skippedCount = 0;
   var errorCount = 0;
+  var details = [];
   var startTime = new Date();
 
   var rows = [];
@@ -251,18 +252,21 @@ function processRows_(selectedRows) {
       setStatus_(controlSheet, row, statusColumn, timeColumn, "⏭ SKIPPED - Month Blank", now);
       controlSheet.getRange(row, errorColumn).clearContent();
       skippedCount++;
+      details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + "MONTH BLANK → SKIPPED");
       continue;
     }
 
     if (!url) {
       setStatus_(controlSheet, row, statusColumn, timeColumn, "⏭ SKIPPED - URL Blank", now);
       skippedCount++;
+      details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + "URL BLANK → SKIPPED");
       continue;
     }
 
     if (!isValidSheetName_(month)) {
       setError_(controlSheet, row, statusColumn, timeColumn, errorColumn, "Invalid sheet name: " + month, now);
       errorCount++;
+      details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + "INVALID SHEET NAME → ERROR");
       continue;
     }
 
@@ -270,6 +274,7 @@ function processRows_(selectedRows) {
     if (!spreadsheetId) {
       setError_(controlSheet, row, statusColumn, timeColumn, errorColumn, "Invalid Google Sheet URL", now);
       errorCount++;
+      details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + "INVALID URL → ERROR");
       continue;
     }
 
@@ -285,6 +290,7 @@ function processRows_(selectedRows) {
         setStatus_(controlSheet, row, statusColumn, timeColumn, "⏭ ALREADY EXISTS", now);
         setCreatedLink_(controlSheet, row, createdColumn, existingUrl);
         existingCount++;
+        details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + month + " → EXISTS");
         continue;
       }
 
@@ -310,6 +316,7 @@ function processRows_(selectedRows) {
       setCreatedLink_(controlSheet, row, createdColumn, newUrl);
       setStatus_(controlSheet, row, statusColumn, timeColumn, "✅ CREATED", now);
       createdCount++;
+      details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + month + " → CREATE");
 
     } catch (e) {
       var message = e && e.message ? e.message : String(e);
@@ -317,11 +324,13 @@ function processRows_(selectedRows) {
       if (isDuplicateSheetError_(message)) {
         setStatus_(controlSheet, row, statusColumn, timeColumn, "⏭ ALREADY EXISTS", now);
         existingCount++;
+        details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + month + " → EXISTS");
         continue;
       }
 
       setError_(controlSheet, row, statusColumn, timeColumn, errorColumn, message, now);
       errorCount++;
+      details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + "ERROR: " + message);
     }
   }
 
@@ -335,6 +344,7 @@ function processRows_(selectedRows) {
     existing: existingCount,
     skipped: skippedCount,
     errors: errorCount,
+    details: details,
     seconds: Number(seconds.toFixed(1))
   };
 }
@@ -467,12 +477,13 @@ function previewMonthlySheetsBatch_(selectedRows) {
 
     if (!month) {
       blankCount++;
+      preview.push("Row " + row + " → " + (caller ? caller + " → " : "") + "MONTH BLANK → SKIPPED");
       continue;
     }
 
     if (!url) {
       blankCount++;
-      preview.push("Row " + row + " → " + (caller ? caller + " → " : "") + "URL BLANK");
+      preview.push("Row " + row + " → " + (caller ? caller + " → " : "") + "URL BLANK → SKIPPED");
       continue;
     }
 
@@ -547,12 +558,13 @@ function previewMonthlySheets() {
 
     if (!month) {
       blankCount++;
+      preview.push("Row " + row + " → " + (caller ? caller + " → " : "") + "MONTH BLANK → SKIPPED");
       continue;
     }
 
     if (!url) {
       blankCount++;
-      preview.push("Row " + row + " → " + caller + " → URL BLANK");
+      preview.push("Row " + row + " → " + (caller ? caller + " → " : "") + "URL BLANK → SKIPPED");
       continue;
     }
 
@@ -1353,25 +1365,58 @@ function getManagerPanelHtml_() {
       border-radius: var(--radius-md);
       padding: 8px 10px;
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
-      transition: transform 0.2s ease;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      user-select: none;
     }
 
-    .stat-pill:hover { transform: translateY(-1px); }
-
-    .stat-value {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--text-main);
-      line-height: 1.1;
+    .stat-pill:hover {
+      transform: translateY(-1px);
+      border-color: rgba(56, 189, 248, 0.4);
+      background: rgba(56, 189, 248, 0.08);
     }
 
-    .stat-label {
-      font-size: 8.5px;
-      font-weight: 700;
+    .stat-pill.active-filter {
+      border-color: var(--accent-blue) !important;
+      background: rgba(56, 189, 248, 0.16) !important;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.35), inset 0 1px 0 rgba(255,255,255,0.8);
+      transform: scale(1.03);
+    }
+
+    .filter-tabs {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 7px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .filter-tab {
+      padding: 3px 9px;
+      border-radius: var(--radius-md);
+      font-size: 9.5px;
+      font-weight: 750;
+      font-family: inherit;
       color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 3px;
+      background: var(--pill-bg);
+      border: 1px solid var(--pill-border);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .filter-tab:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+    }
+
+    .filter-tab.active {
+      color: #ffffff;
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      box-shadow: 0 2px 8px rgba(10, 132, 255, 0.3);
     }
 
     .message-box {
@@ -1384,19 +1429,66 @@ function getManagerPanelHtml_() {
       line-height: 1.45;
     }
 
+    .details-container {
+      margin-top: 10px;
+    }
+
+    .details-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .details-title {
+      font-size: 9.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-dim);
+    }
+
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: var(--radius-md);
+      font-size: 10px;
+      font-weight: 750;
+      font-family: inherit;
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .copy-btn:hover {
+      background: rgba(56, 189, 248, 0.22);
+      border-color: rgba(56, 189, 248, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .copy-btn.copied {
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.18);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
     .details-box {
-      margin-top: 8px;
-      max-height: 130px;
+      max-height: 140px;
       overflow-y: auto;
       background: var(--pill-bg);
       border: 1px solid var(--pill-border);
       border-radius: var(--radius-md);
       padding: 8px 10px;
-      font-size: 9px;
-      font-family: monospace;
+      font-size: 9.5px;
+      font-family: 'Consolas', 'Courier New', monospace;
       color: var(--text-main);
       white-space: pre-wrap;
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     .footer {
@@ -1496,7 +1588,20 @@ function getManagerPanelHtml_() {
 
       <div id="stats" class="stats-grid"></div>
       <div id="message" class="message-box"></div>
-      <div id="details" class="details-box" style="display:none"></div>
+
+      <div id="detailsContainer" class="details-container" style="display:none">
+        <div class="details-header">
+          <span class="details-title">Preview Details Log</span>
+          <div class="details-actions">
+            <button id="resetFilterBtn" class="reset-filter-btn" onclick="filterDetails('all')" title="Show All Logs">All Logs</button>
+            <button id="copyBtn" class="copy-btn" onclick="copyDetailsToClipboard()" title="Copy log data for Excel / Sheets">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="details" class="details-box"></div>
+      </div>
     </div>
 
     <div class="footer">
@@ -1506,6 +1611,111 @@ function getManagerPanelHtml_() {
 
   <script>
     var busy = false;
+    var safetyTimer = null;
+    var currentDetailsLog = [];
+    var currentFilteredLog = [];
+    var activeFilterCategory = 'all';
+
+    function resetBusyState() {
+      busy = false;
+      if (safetyTimer) {
+        clearTimeout(safetyTimer);
+        safetyTimer = null;
+      }
+      document.querySelectorAll('.glass-card .btn').forEach(function(b) {
+        b.disabled = false;
+      });
+    }
+
+    function copyDetailsToClipboard() {
+      var logToCopy = (currentFilteredLog && currentFilteredLog.length) ? currentFilteredLog : currentDetailsLog;
+      if (!logToCopy || !logToCopy.length) return;
+
+      var tsvLines = logToCopy.map(function(line) {
+        return String(line)
+          .replace(/→/g, String.fromCharCode(9))
+          .trim();
+      });
+
+      var copyText = tsvLines.join(String.fromCharCode(10));
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(copyText).then(onCopySuccess).catch(function() {
+          fallbackCopyText(copyText);
+        });
+      } else {
+        fallbackCopyText(copyText);
+      }
+    }
+
+    function fallbackCopyText(text) {
+      var textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        onCopySuccess();
+      } catch (e) {
+        console.error('Copy failed:', e);
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function onCopySuccess() {
+      var btn = document.getElementById('copyBtn');
+      if (btn) {
+        btn.classList.add('copied');
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+        setTimeout(function() {
+          btn.classList.remove('copied');
+          btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+        }, 2000);
+      }
+    }
+
+    function filterDetails(category) {
+      if (activeFilterCategory === category && category !== 'all') {
+        category = 'all';
+      }
+      activeFilterCategory = category;
+
+      document.querySelectorAll('.stat-pill').forEach(function(pill) {
+        var cat = pill.getAttribute('data-category');
+        pill.classList.toggle('active-filter', cat === category);
+      });
+
+      var resetBtn = document.getElementById('resetFilterBtn');
+      if (resetBtn) {
+        resetBtn.style.display = (category === 'all') ? 'none' : 'inline-block';
+      }
+
+      if (!currentDetailsLog || !currentDetailsLog.length) return;
+
+      if (category === 'all') {
+        currentFilteredLog = currentDetailsLog.slice();
+      } else {
+        currentFilteredLog = currentDetailsLog.filter(function(line) {
+          var upper = String(line).toUpperCase();
+          if (category === 'created') return upper.indexOf('CREATE') !== -1;
+          if (category === 'existing') return upper.indexOf('EXIST') !== -1 || upper.indexOf('ALREADY') !== -1;
+          if (category === 'skipped') return upper.indexOf('SKIP') !== -1 || upper.indexOf('BLANK') !== -1 || upper.indexOf('MISSING') !== -1;
+          if (category === 'errors') return upper.indexOf('ERROR') !== -1 || upper.indexOf('INVALID') !== -1 || upper.indexOf('ACCESS') !== -1 || upper.indexOf('ERR') !== -1;
+          return true;
+        });
+      }
+
+      var details = document.getElementById('details');
+      if (details) {
+        if (currentFilteredLog.length === 0) {
+          details.textContent = 'No log entries found for filter: ' + category.toUpperCase();
+        } else {
+          details.textContent = currentFilteredLog.join(String.fromCharCode(10));
+        }
+      }
+    }
 
     function toggleTheme() {
       var currentTheme = document.documentElement.getAttribute('data-theme');
@@ -1554,7 +1764,7 @@ function getManagerPanelHtml_() {
       var sub = document.getElementById('resultSub');
       var stats = document.getElementById('stats');
       var message = document.getElementById('message');
-      var details = document.getElementById('details');
+      var detailsContainer = document.getElementById('detailsContainer');
 
       var type = result.type || 'success';
 
@@ -1566,16 +1776,16 @@ function getManagerPanelHtml_() {
 
       stats.innerHTML = '';
       var items = [
-        ['Created', result.created],
-        ['Already Exists', result.existing],
-        ['Skipped', result.skipped],
-        ['Errors', result.errors]
+        ['Created', result.created, 'created'],
+        ['Already Exists', result.existing, 'existing'],
+        ['Skipped', result.skipped, 'skipped'],
+        ['Errors', result.errors, 'errors']
       ];
 
       items.forEach(function(item) {
         if (item[1] != null) {
           stats.innerHTML += 
-            '<div class="stat-pill">' +
+            '<div class="stat-pill" data-category="' + item[2] + '" onclick="filterDetails(\'' + item[2] + '\')" title="Click to filter by ' + item[0] + '">' +
               '<div class="stat-value">' + escapeHtml(item[1]) + '</div>' +
               '<div class="stat-label">' + escapeHtml(item[0]) + '</div>' +
             '</div>';
@@ -1585,11 +1795,14 @@ function getManagerPanelHtml_() {
       message.textContent = result.message || '';
 
       if (result.details && result.details.length) {
-        details.style.display = 'block';
-        details.textContent = result.details.join('\\n') + (result.more ? ('\\n\\n… and ' + result.more + ' more.') : '');
+        currentDetailsLog = result.details;
+        currentFilteredLog = result.details.slice();
+        if (detailsContainer) detailsContainer.style.display = 'block';
+        filterDetails('all');
       } else {
-        details.style.display = 'none';
-        details.textContent = '';
+        currentDetailsLog = [];
+        currentFilteredLog = [];
+        if (detailsContainer) detailsContainer.style.display = 'none';
       }
 
       card.style.display = 'block';
@@ -1615,9 +1828,14 @@ function getManagerPanelHtml_() {
       if (busy) return;
       busy = true;
 
-      document.querySelectorAll('button').forEach(function(b) {
+      document.querySelectorAll('.glass-card .btn').forEach(function(b) {
         b.disabled = true;
       });
+
+      safetyTimer = setTimeout(function() {
+        resetBusyState();
+        setWorking(false);
+      }, 45000);
 
       var workingText =
         fn === 'createMonthlySheetsSafe' ? 'Creating monthly sheets…' :
@@ -1640,16 +1858,14 @@ function getManagerPanelHtml_() {
             clearInterval(clearTimer);
             updateProgress(100, 'Status Cleared', 'Complete!');
             setTimeout(function() {
-              busy = false;
-              document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+              resetBusyState();
               setWorking(false);
               showResult(result);
             }, 300);
           })
           .withFailureHandler(function(err) {
             clearInterval(clearTimer);
-            busy = false;
-            document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+            resetBusyState();
             setWorking(false);
             showResult({
               type: 'error',
@@ -1667,8 +1883,7 @@ function getManagerPanelHtml_() {
         .withSuccessHandler(function(plan) {
           if (!plan || plan.error) {
             if (plan && plan.result) {
-              busy = false;
-              document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+              resetBusyState();
               setWorking(false);
               showResult(plan.result);
               return;
@@ -1695,8 +1910,7 @@ function getManagerPanelHtml_() {
           if (totalRows === 0) {
             updateProgress(100, 'No rows to process', 'Done!');
             setTimeout(function() {
-              busy = false;
-              document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+              resetBusyState();
               setWorking(false);
               showResult(accumulated);
             }, 300);
@@ -1714,8 +1928,7 @@ function getManagerPanelHtml_() {
 
               updateProgress(100, 'Processing Complete!', '100% Done');
               setTimeout(function() {
-                busy = false;
-                document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+                resetBusyState();
                 setWorking(false);
                 showResult(accumulated);
               }, 400);
@@ -1785,16 +1998,14 @@ function getManagerPanelHtml_() {
           clearInterval(simTimer);
           updateProgress(100, 'Complete', 'Done!');
           setTimeout(function() {
-            busy = false;
-            document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+            resetBusyState();
             setWorking(false);
             showResult(result);
           }, 250);
         })
         .withFailureHandler(function(err) {
           clearInterval(simTimer);
-          busy = false;
-          document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+          resetBusyState();
           setWorking(false);
           showResult({
             type: 'error',

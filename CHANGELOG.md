@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.0] - 2026-08-18
+
+### Added
+- **Interactive Stat Pill Filters**: Stat summary pills (`CREATED`, `ALREADY EXISTS`, `SKIPPED`, `ERRORS`) now act as interactive filter controls with active glowing selection feedback (`.stat-pill.active-filter`).
+- **Modern TSV Copy-to-Clipboard**: Compact SVG clipboard button that formats log output into Tab-Separated Values (TSV) for direct paste into Microsoft Excel or Google Sheets, with animated checkmark feedback.
+- **Custom Modern Slim Scrollbars**: Custom 5px ultra-slim glassmorphic scrollbars (`::-webkit-scrollbar`) with theme-adaptive hover glows.
+- **Graphify Codebase Knowledge Graph**: Added full AST extraction and visualization for `.gs` and `.html` files in [`graphify-out/graphify.html`](./graphify-out/graphify.html).
+
+### Fixed
+- **Skipped Rows Log Generation**: Updated `previewMonthlySheetsBatch_`, `previewMonthlySheets`, and `processRows_` to push log detail entries (`Row X → MONTH BLANK → SKIPPED` / `Row X → URL BLANK → SKIPPED`) so filtering by `SKIPPED` displays accurate log lines.
+
 ## [1.3.0] - 2026-08-18
 
 ### Added
@@ -28,4 +39,3 @@ All notable changes to this project will be documented in this file.
   - Smart Retry mechanism for failed rows.
   - Status & header clear maintenance workflow.
 - **Single-File & Multi-File Architecture**: Single-file bundled `Code.gs` for instant copy-paste along with modular `src/` directory.
-

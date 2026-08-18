@@ -1,0 +1,1230 @@
+{
+  "nodes": [
+    {
+      "id": "gs:Code.gs",
+      "label": "Code.gs",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:onOpen",
+      "label": "onOpen()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:openManagerPanel",
+      "label": "openManagerPanel()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:findControlSheet_",
+      "label": "findControlSheet_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:findHeaderColumn_",
+      "label": "findHeaderColumn_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:ensureHeaderColumn_",
+      "label": "ensureHeaderColumn_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:setStatus_",
+      "label": "setStatus_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:setError_",
+      "label": "setError_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:setCreatedLink_",
+      "label": "setCreatedLink_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:createMonthlySheetsSafe",
+      "label": "createMonthlySheetsSafe()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:processRows_",
+      "label": "processRows_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:getExecutionPlan",
+      "label": "getExecutionPlan()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:executeRowBatch",
+      "label": "executeRowBatch()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:previewMonthlySheetsBatch_",
+      "label": "previewMonthlySheetsBatch_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:previewMonthlySheets",
+      "label": "previewMonthlySheets()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:retryFailedRows",
+      "label": "retryFailedRows()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:clearProcessingStatus",
+      "label": "clearProcessingStatus()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:getSheetUrl_",
+      "label": "getSheetUrl_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:extractSpreadsheetId_",
+      "label": "extractSpreadsheetId_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:buildSheetUrl_",
+      "label": "buildSheetUrl_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:isValidSheetName_",
+      "label": "isValidSheetName_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:isDuplicateSheetError_",
+      "label": "isDuplicateSheetError_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:removeLegacyExecutionLog_",
+      "label": "removeLegacyExecutionLog_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:getManagerPanelHtml_",
+      "label": "getManagerPanelHtml_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:resetBusyState",
+      "label": "resetBusyState()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:copyDetailsToClipboard",
+      "label": "copyDetailsToClipboard()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:fallbackCopyText",
+      "label": "fallbackCopyText()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:onCopySuccess",
+      "label": "onCopySuccess()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:filterDetails",
+      "label": "filterDetails()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:toggleTheme",
+      "label": "toggleTheme()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:closeResults",
+      "label": "closeResults()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:updateProgress",
+      "label": "updateProgress()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:setWorking",
+      "label": "setWorking()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:showResult",
+      "label": "showResult()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:escapeHtml",
+      "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:run",
+      "label": "run()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:processNextBatch",
+      "label": "processNextBatch()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "fn:runDirectFallback",
+      "label": "runDirectFallback()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "gs:src/core/Config.gs",
+      "label": "Config.gs",
+      "file_type": "code",
+      "source_file": "src/core/Config.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "gs:src/services/SheetProcessor.gs",
+      "label": "SheetProcessor.gs",
+      "file_type": "code",
+      "source_file": "src/services/SheetProcessor.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "gs:src/utils/SheetUtils.gs",
+      "label": "SheetUtils.gs",
+      "file_type": "code",
+      "source_file": "src/utils/SheetUtils.gs",
+      "_origin": "ast"
+    },
+    {
+      "id": "html:Sidebar.html",
+      "label": "Sidebar.html",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:resetBusyState",
+      "label": "resetBusyState()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:copyDetailsToClipboard",
+      "label": "copyDetailsToClipboard()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:fallbackCopyText",
+      "label": "fallbackCopyText()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:onCopySuccess",
+      "label": "onCopySuccess()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:filterDetails",
+      "label": "filterDetails()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:toggleTheme",
+      "label": "toggleTheme()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:closeResults",
+      "label": "closeResults()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:updateProgress",
+      "label": "updateProgress()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:setWorking",
+      "label": "setWorking()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:showResult",
+      "label": "showResult()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:escapeHtml",
+      "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:run",
+      "label": "run()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:processNextBatch",
+      "label": "processNextBatch()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:runDirectFallback",
+      "label": "runDirectFallback()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html:src/ui/Sidebar.html",
+      "label": "Sidebar.html",
+      "file_type": "code",
+      "source_file": "src/ui/Sidebar.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html:graphify-out/graph.html",
+      "label": "graph.html",
+      "file_type": "code",
+      "source_file": "graphify-out/graph.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:esc",
+      "label": "esc()",
+      "file_type": "code",
+      "source_file": "graphify-out/graph.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:showInfo",
+      "label": "showInfo()",
+      "file_type": "code",
+      "source_file": "graphify-out/graph.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:focusNode",
+      "label": "focusNode()",
+      "file_type": "code",
+      "source_file": "graphify-out/graph.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:updateSelectAllState",
+      "label": "updateSelectAllState()",
+      "file_type": "code",
+      "source_file": "graphify-out/graph.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html_fn:toggleAllCommunities",
+      "label": "toggleAllCommunities()",
+      "file_type": "code",
+      "source_file": "graphify-out/graph.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "html:graphify-out/graphify.html",
+      "label": "graphify.html",
+      "file_type": "code",
+      "source_file": "graphify-out/graphify.html",
+      "_origin": "ast"
+    },
+    {
+      "id": "doc:CHANGELOG.md",
+      "label": "CHANGELOG.md",
+      "file_type": "document",
+      "source_file": "CHANGELOG.md",
+      "_origin": "ast"
+    },
+    {
+      "id": "doc:CONTRIBUTING.md",
+      "label": "CONTRIBUTING.md",
+      "file_type": "document",
+      "source_file": "CONTRIBUTING.md",
+      "_origin": "ast"
+    },
+    {
+      "id": "doc:README.md",
+      "label": "README.md",
+      "file_type": "document",
+      "source_file": "README.md",
+      "_origin": "ast"
+    }
+  ],
+  "edges": [
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:onOpen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:openManagerPanel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:findControlSheet_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:findHeaderColumn_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:ensureHeaderColumn_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:setStatus_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:setError_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:setCreatedLink_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:createMonthlySheetsSafe",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:processRows_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:getExecutionPlan",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:executeRowBatch",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:previewMonthlySheetsBatch_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:previewMonthlySheets",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:retryFailedRows",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:clearProcessingStatus",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:getSheetUrl_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:extractSpreadsheetId_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:buildSheetUrl_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:isValidSheetName_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:isDuplicateSheetError_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:removeLegacyExecutionLog_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:getManagerPanelHtml_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:resetBusyState",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:copyDetailsToClipboard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:fallbackCopyText",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:onCopySuccess",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:filterDetails",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:toggleTheme",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:closeResults",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:updateProgress",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:setWorking",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:showResult",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:escapeHtml",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:run",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:processNextBatch",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:Code.gs",
+      "target": "fn:runDirectFallback",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/core/Config.gs",
+      "target": "fn:onOpen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/Config.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/core/Config.gs",
+      "target": "fn:openManagerPanel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/Config.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/services/SheetProcessor.gs",
+      "target": "fn:createMonthlySheetsSafe",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/SheetProcessor.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/services/SheetProcessor.gs",
+      "target": "fn:processRows_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/SheetProcessor.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/services/SheetProcessor.gs",
+      "target": "fn:previewMonthlySheets",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/SheetProcessor.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/services/SheetProcessor.gs",
+      "target": "fn:retryFailedRows",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/SheetProcessor.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/services/SheetProcessor.gs",
+      "target": "fn:clearProcessingStatus",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/SheetProcessor.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:findControlSheet_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:findHeaderColumn_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:ensureHeaderColumn_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:setStatus_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:setError_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:setCreatedLink_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:getSheetUrl_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:extractSpreadsheetId_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:buildSheetUrl_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:isValidSheetName_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:isDuplicateSheetError_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:removeLegacyExecutionLog_",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:resetBusyState",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:copyDetailsToClipboard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:fallbackCopyText",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:onCopySuccess",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:filterDetails",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:toggleTheme",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:closeResults",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:updateProgress",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:setWorking",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:showResult",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:escapeHtml",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:run",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:processNextBatch",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:Sidebar.html",
+      "target": "html_fn:runDirectFallback",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:resetBusyState",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:copyDetailsToClipboard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:fallbackCopyText",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:onCopySuccess",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:filterDetails",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:toggleTheme",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:closeResults",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:updateProgress",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:setWorking",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:showResult",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:escapeHtml",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:run",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:processNextBatch",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:runDirectFallback",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:graphify-out/graph.html",
+      "target": "html_fn:esc",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graph.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:graphify-out/graph.html",
+      "target": "html_fn:showInfo",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graph.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:graphify-out/graph.html",
+      "target": "html_fn:focusNode",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graph.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:graphify-out/graph.html",
+      "target": "html_fn:updateSelectAllState",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graph.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:graphify-out/graph.html",
+      "target": "html_fn:toggleAllCommunities",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graph.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:graphify-out/graphify.html",
+      "target": "html_fn:esc",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graphify.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:graphify-out/graphify.html",
+      "target": "html_fn:showInfo",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graphify.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:graphify-out/graphify.html",
+      "target": "html_fn:focusNode",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graphify.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:graphify-out/graphify.html",
+      "target": "html_fn:updateSelectAllState",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graphify.html",
+      "weight": 1.0
+    },
+    {
+      "source": "html:graphify-out/graphify.html",
+      "target": "html_fn:toggleAllCommunities",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graphify.html",
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

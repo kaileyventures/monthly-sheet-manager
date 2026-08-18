@@ -1,0 +1,1460 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "Code.gs",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "gs:Code.gs",
+      "community": 0,
+      "norm_label": "code.gs"
+    },
+    {
+      "label": "onOpen()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:onOpen",
+      "community": 3,
+      "norm_label": "onopen()"
+    },
+    {
+      "label": "openManagerPanel()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:openManagerPanel",
+      "community": 3,
+      "norm_label": "openmanagerpanel()"
+    },
+    {
+      "label": "findControlSheet_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:findControlSheet_",
+      "community": 2,
+      "norm_label": "findcontrolsheet_()"
+    },
+    {
+      "label": "findHeaderColumn_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:findHeaderColumn_",
+      "community": 2,
+      "norm_label": "findheadercolumn_()"
+    },
+    {
+      "label": "ensureHeaderColumn_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:ensureHeaderColumn_",
+      "community": 2,
+      "norm_label": "ensureheadercolumn_()"
+    },
+    {
+      "label": "setStatus_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:setStatus_",
+      "community": 2,
+      "norm_label": "setstatus_()"
+    },
+    {
+      "label": "setError_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:setError_",
+      "community": 2,
+      "norm_label": "seterror_()"
+    },
+    {
+      "label": "setCreatedLink_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:setCreatedLink_",
+      "community": 2,
+      "norm_label": "setcreatedlink_()"
+    },
+    {
+      "label": "createMonthlySheetsSafe()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:createMonthlySheetsSafe",
+      "community": 3,
+      "norm_label": "createmonthlysheetssafe()"
+    },
+    {
+      "label": "processRows_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:processRows_",
+      "community": 3,
+      "norm_label": "processrows_()"
+    },
+    {
+      "label": "getExecutionPlan()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:getExecutionPlan",
+      "community": 0,
+      "norm_label": "getexecutionplan()"
+    },
+    {
+      "label": "executeRowBatch()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:executeRowBatch",
+      "community": 0,
+      "norm_label": "executerowbatch()"
+    },
+    {
+      "label": "previewMonthlySheetsBatch_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:previewMonthlySheetsBatch_",
+      "community": 0,
+      "norm_label": "previewmonthlysheetsbatch_()"
+    },
+    {
+      "label": "previewMonthlySheets()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:previewMonthlySheets",
+      "community": 3,
+      "norm_label": "previewmonthlysheets()"
+    },
+    {
+      "label": "retryFailedRows()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:retryFailedRows",
+      "community": 3,
+      "norm_label": "retryfailedrows()"
+    },
+    {
+      "label": "clearProcessingStatus()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:clearProcessingStatus",
+      "community": 3,
+      "norm_label": "clearprocessingstatus()"
+    },
+    {
+      "label": "getSheetUrl_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:getSheetUrl_",
+      "community": 2,
+      "norm_label": "getsheeturl_()"
+    },
+    {
+      "label": "extractSpreadsheetId_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:extractSpreadsheetId_",
+      "community": 2,
+      "norm_label": "extractspreadsheetid_()"
+    },
+    {
+      "label": "buildSheetUrl_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:buildSheetUrl_",
+      "community": 2,
+      "norm_label": "buildsheeturl_()"
+    },
+    {
+      "label": "isValidSheetName_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:isValidSheetName_",
+      "community": 2,
+      "norm_label": "isvalidsheetname_()"
+    },
+    {
+      "label": "isDuplicateSheetError_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:isDuplicateSheetError_",
+      "community": 2,
+      "norm_label": "isduplicatesheeterror_()"
+    },
+    {
+      "label": "removeLegacyExecutionLog_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:removeLegacyExecutionLog_",
+      "community": 2,
+      "norm_label": "removelegacyexecutionlog_()"
+    },
+    {
+      "label": "getManagerPanelHtml_()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:getManagerPanelHtml_",
+      "community": 0,
+      "norm_label": "getmanagerpanelhtml_()"
+    },
+    {
+      "label": "resetBusyState()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:resetBusyState",
+      "community": 0,
+      "norm_label": "resetbusystate()"
+    },
+    {
+      "label": "copyDetailsToClipboard()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:copyDetailsToClipboard",
+      "community": 0,
+      "norm_label": "copydetailstoclipboard()"
+    },
+    {
+      "label": "fallbackCopyText()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:fallbackCopyText",
+      "community": 0,
+      "norm_label": "fallbackcopytext()"
+    },
+    {
+      "label": "onCopySuccess()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:onCopySuccess",
+      "community": 0,
+      "norm_label": "oncopysuccess()"
+    },
+    {
+      "label": "filterDetails()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:filterDetails",
+      "community": 0,
+      "norm_label": "filterdetails()"
+    },
+    {
+      "label": "toggleTheme()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:toggleTheme",
+      "community": 0,
+      "norm_label": "toggletheme()"
+    },
+    {
+      "label": "closeResults()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:closeResults",
+      "community": 0,
+      "norm_label": "closeresults()"
+    },
+    {
+      "label": "updateProgress()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:updateProgress",
+      "community": 0,
+      "norm_label": "updateprogress()"
+    },
+    {
+      "label": "setWorking()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:setWorking",
+      "community": 0,
+      "norm_label": "setworking()"
+    },
+    {
+      "label": "showResult()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:showResult",
+      "community": 0,
+      "norm_label": "showresult()"
+    },
+    {
+      "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:escapeHtml",
+      "community": 0,
+      "norm_label": "escapehtml()"
+    },
+    {
+      "label": "run()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:run",
+      "community": 0,
+      "norm_label": "run()"
+    },
+    {
+      "label": "processNextBatch()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:processNextBatch",
+      "community": 0,
+      "norm_label": "processnextbatch()"
+    },
+    {
+      "label": "runDirectFallback()",
+      "file_type": "code",
+      "source_file": "Code.gs",
+      "_origin": "ast",
+      "id": "fn:runDirectFallback",
+      "community": 0,
+      "norm_label": "rundirectfallback()"
+    },
+    {
+      "label": "Config.gs",
+      "file_type": "code",
+      "source_file": "src/core/Config.gs",
+      "_origin": "ast",
+      "id": "gs:src/core/Config.gs",
+      "community": 3,
+      "norm_label": "config.gs"
+    },
+    {
+      "label": "SheetProcessor.gs",
+      "file_type": "code",
+      "source_file": "src/services/SheetProcessor.gs",
+      "_origin": "ast",
+      "id": "gs:src/services/SheetProcessor.gs",
+      "community": 3,
+      "norm_label": "sheetprocessor.gs"
+    },
+    {
+      "label": "SheetUtils.gs",
+      "file_type": "code",
+      "source_file": "src/utils/SheetUtils.gs",
+      "_origin": "ast",
+      "id": "gs:src/utils/SheetUtils.gs",
+      "community": 2,
+      "norm_label": "sheetutils.gs"
+    },
+    {
+      "label": "Sidebar.html",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html:Sidebar.html",
+      "community": 1,
+      "norm_label": "sidebar.html"
+    },
+    {
+      "label": "resetBusyState()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:resetBusyState",
+      "community": 1,
+      "norm_label": "resetbusystate()"
+    },
+    {
+      "label": "copyDetailsToClipboard()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:copyDetailsToClipboard",
+      "community": 1,
+      "norm_label": "copydetailstoclipboard()"
+    },
+    {
+      "label": "fallbackCopyText()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:fallbackCopyText",
+      "community": 1,
+      "norm_label": "fallbackcopytext()"
+    },
+    {
+      "label": "onCopySuccess()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:onCopySuccess",
+      "community": 1,
+      "norm_label": "oncopysuccess()"
+    },
+    {
+      "label": "filterDetails()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:filterDetails",
+      "community": 1,
+      "norm_label": "filterdetails()"
+    },
+    {
+      "label": "toggleTheme()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:toggleTheme",
+      "community": 1,
+      "norm_label": "toggletheme()"
+    },
+    {
+      "label": "closeResults()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:closeResults",
+      "community": 1,
+      "norm_label": "closeresults()"
+    },
+    {
+      "label": "updateProgress()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:updateProgress",
+      "community": 1,
+      "norm_label": "updateprogress()"
+    },
+    {
+      "label": "setWorking()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:setWorking",
+      "community": 1,
+      "norm_label": "setworking()"
+    },
+    {
+      "label": "showResult()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:showResult",
+      "community": 1,
+      "norm_label": "showresult()"
+    },
+    {
+      "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:escapeHtml",
+      "community": 1,
+      "norm_label": "escapehtml()"
+    },
+    {
+      "label": "run()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:run",
+      "community": 1,
+      "norm_label": "run()"
+    },
+    {
+      "label": "processNextBatch()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:processNextBatch",
+      "community": 1,
+      "norm_label": "processnextbatch()"
+    },
+    {
+      "label": "runDirectFallback()",
+      "file_type": "code",
+      "source_file": "Sidebar.html",
+      "_origin": "ast",
+      "id": "html_fn:runDirectFallback",
+      "community": 1,
+      "norm_label": "rundirectfallback()"
+    },
+    {
+      "label": "Sidebar.html",
+      "file_type": "code",
+      "source_file": "src/ui/Sidebar.html",
+      "_origin": "ast",
+      "id": "html:src/ui/Sidebar.html",
+      "community": 1,
+      "norm_label": "sidebar.html"
+    },
+    {
+      "label": "graph.html",
+      "file_type": "code",
+      "source_file": "graphify-out/graph.html",
+      "_origin": "ast",
+      "id": "html:graphify-out/graph.html",
+      "community": 4,
+      "norm_label": "graph.html"
+    },
+    {
+      "label": "esc()",
+      "file_type": "code",
+      "source_file": "graphify-out/graph.html",
+      "_origin": "ast",
+      "id": "html_fn:esc",
+      "community": 4,
+      "norm_label": "esc()"
+    },
+    {
+      "label": "showInfo()",
+      "file_type": "code",
+      "source_file": "graphify-out/graph.html",
+      "_origin": "ast",
+      "id": "html_fn:showInfo",
+      "community": 4,
+      "norm_label": "showinfo()"
+    },
+    {
+      "label": "focusNode()",
+      "file_type": "code",
+      "source_file": "graphify-out/graph.html",
+      "_origin": "ast",
+      "id": "html_fn:focusNode",
+      "community": 4,
+      "norm_label": "focusnode()"
+    },
+    {
+      "label": "updateSelectAllState()",
+      "file_type": "code",
+      "source_file": "graphify-out/graph.html",
+      "_origin": "ast",
+      "id": "html_fn:updateSelectAllState",
+      "community": 4,
+      "norm_label": "updateselectallstate()"
+    },
+    {
+      "label": "toggleAllCommunities()",
+      "file_type": "code",
+      "source_file": "graphify-out/graph.html",
+      "_origin": "ast",
+      "id": "html_fn:toggleAllCommunities",
+      "community": 4,
+      "norm_label": "toggleallcommunities()"
+    },
+    {
+      "label": "graphify.html",
+      "file_type": "code",
+      "source_file": "graphify-out/graphify.html",
+      "_origin": "ast",
+      "id": "html:graphify-out/graphify.html",
+      "community": 4,
+      "norm_label": "graphify.html"
+    },
+    {
+      "label": "CHANGELOG.md",
+      "file_type": "document",
+      "source_file": "CHANGELOG.md",
+      "_origin": "ast",
+      "id": "doc:CHANGELOG.md",
+      "community": 5,
+      "norm_label": "changelog.md"
+    },
+    {
+      "label": "CONTRIBUTING.md",
+      "file_type": "document",
+      "source_file": "CONTRIBUTING.md",
+      "_origin": "ast",
+      "id": "doc:CONTRIBUTING.md",
+      "community": 6,
+      "norm_label": "contributing.md"
+    },
+    {
+      "label": "README.md",
+      "file_type": "document",
+      "source_file": "README.md",
+      "_origin": "ast",
+      "id": "doc:README.md",
+      "community": 7,
+      "norm_label": "readme.md"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:buildSheetUrl_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:clearProcessingStatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:closeResults",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:copyDetailsToClipboard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:createMonthlySheetsSafe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:ensureHeaderColumn_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:escapeHtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:executeRowBatch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:extractSpreadsheetId_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:fallbackCopyText",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:filterDetails",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:findControlSheet_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:findHeaderColumn_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:getExecutionPlan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:getManagerPanelHtml_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:getSheetUrl_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:isDuplicateSheetError_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:isValidSheetName_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:onCopySuccess",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:onOpen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:openManagerPanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:previewMonthlySheets",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:previewMonthlySheetsBatch_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:processNextBatch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:processRows_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:removeLegacyExecutionLog_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:resetBusyState",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:retryFailedRows",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:run",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:runDirectFallback",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:setCreatedLink_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:setError_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:setStatus_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:setWorking",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:showResult",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:toggleTheme",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Code.gs",
+      "weight": 1.0,
+      "source": "gs:Code.gs",
+      "target": "fn:updateProgress",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/Config.gs",
+      "weight": 1.0,
+      "source": "gs:src/core/Config.gs",
+      "target": "fn:onOpen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/core/Config.gs",
+      "weight": 1.0,
+      "source": "gs:src/core/Config.gs",
+      "target": "fn:openManagerPanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0,
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:findControlSheet_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0,
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:findHeaderColumn_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0,
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:ensureHeaderColumn_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0,
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:setStatus_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0,
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:setError_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0,
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:setCreatedLink_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/SheetProcessor.gs",
+      "weight": 1.0,
+      "source": "gs:src/services/SheetProcessor.gs",
+      "target": "fn:createMonthlySheetsSafe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/SheetProcessor.gs",
+      "weight": 1.0,
+      "source": "gs:src/services/SheetProcessor.gs",
+      "target": "fn:processRows_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/SheetProcessor.gs",
+      "weight": 1.0,
+      "source": "gs:src/services/SheetProcessor.gs",
+      "target": "fn:previewMonthlySheets",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/SheetProcessor.gs",
+      "weight": 1.0,
+      "source": "gs:src/services/SheetProcessor.gs",
+      "target": "fn:retryFailedRows",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/SheetProcessor.gs",
+      "weight": 1.0,
+      "source": "gs:src/services/SheetProcessor.gs",
+      "target": "fn:clearProcessingStatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0,
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:getSheetUrl_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0,
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:extractSpreadsheetId_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0,
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:buildSheetUrl_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0,
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:isValidSheetName_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0,
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:isDuplicateSheetError_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/SheetUtils.gs",
+      "weight": 1.0,
+      "source": "gs:src/utils/SheetUtils.gs",
+      "target": "fn:removeLegacyExecutionLog_",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:closeResults",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:copyDetailsToClipboard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:escapeHtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:fallbackCopyText",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:filterDetails",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:onCopySuccess",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:processNextBatch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:resetBusyState",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:run",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:runDirectFallback",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:setWorking",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:showResult",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:toggleTheme",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Sidebar.html",
+      "weight": 1.0,
+      "source": "html:Sidebar.html",
+      "target": "html_fn:updateProgress",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:resetBusyState",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:copyDetailsToClipboard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:fallbackCopyText",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:onCopySuccess",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:filterDetails",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:toggleTheme",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:closeResults",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:updateProgress",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:setWorking",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:showResult",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:escapeHtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:run",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:processNextBatch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/Sidebar.html",
+      "weight": 1.0,
+      "source": "html:src/ui/Sidebar.html",
+      "target": "html_fn:runDirectFallback",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graph.html",
+      "weight": 1.0,
+      "source": "html:graphify-out/graph.html",
+      "target": "html_fn:esc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graph.html",
+      "weight": 1.0,
+      "source": "html:graphify-out/graph.html",
+      "target": "html_fn:focusNode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graph.html",
+      "weight": 1.0,
+      "source": "html:graphify-out/graph.html",
+      "target": "html_fn:showInfo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graph.html",
+      "weight": 1.0,
+      "source": "html:graphify-out/graph.html",
+      "target": "html_fn:toggleAllCommunities",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graph.html",
+      "weight": 1.0,
+      "source": "html:graphify-out/graph.html",
+      "target": "html_fn:updateSelectAllState",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graphify.html",
+      "weight": 1.0,
+      "source": "html:graphify-out/graphify.html",
+      "target": "html_fn:esc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graphify.html",
+      "weight": 1.0,
+      "source": "html:graphify-out/graphify.html",
+      "target": "html_fn:showInfo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graphify.html",
+      "weight": 1.0,
+      "source": "html:graphify-out/graphify.html",
+      "target": "html_fn:focusNode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graphify.html",
+      "weight": 1.0,
+      "source": "html:graphify-out/graphify.html",
+      "target": "html_fn:updateSelectAllState",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/graphify.html",
+      "weight": 1.0,
+      "source": "html:graphify-out/graphify.html",
+      "target": "html_fn:toggleAllCommunities",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "e57fbf5d3273dd6b887191509033b287afd5d792"
+}

@@ -1,0 +1,52 @@
+{
+  "appsscript.json": {
+    "mtime": 1787047035.576,
+    "ast_hash": "8e15a0bd39dfc2265bbb6a9372806f59",
+    "semantic_hash": "8e15a0bd39dfc2265bbb6a9372806f59"
+  },
+  "Code.gs": {
+    "mtime": 1787050880.998,
+    "ast_hash": "9a2c3f909d8a7357fe565825279748c3",
+    "semantic_hash": "9a2c3f909d8a7357fe565825279748c3"
+  },
+  "src/core/Config.gs": {
+    "mtime": 1787047752.741,
+    "ast_hash": "5d4763c950f484d1215343aa08f6655e",
+    "semantic_hash": "5d4763c950f484d1215343aa08f6655e"
+  },
+  "src/services/SheetProcessor.gs": {
+    "mtime": 1787047035.64,
+    "ast_hash": "6be506b43c0f2a549ca2c7bd5db76a89",
+    "semantic_hash": "6be506b43c0f2a549ca2c7bd5db76a89"
+  },
+  "src/utils/SheetUtils.gs": {
+    "mtime": 1787047035.68,
+    "ast_hash": "3d083e59370b56af06388e8f69ab629e",
+    "semantic_hash": "3d083e59370b56af06388e8f69ab629e"
+  },
+  "CHANGELOG.md": {
+    "mtime": 1787049188.144,
+    "ast_hash": "cbd9d3207453758e72d26912e3205d9e",
+    "semantic_hash": "cbd9d3207453758e72d26912e3205d9e"
+  },
+  "CONTRIBUTING.md": {
+    "mtime": 1787047035.52,
+    "ast_hash": "466efcaca1a935ee60bbd9636e41a765",
+    "semantic_hash": "466efcaca1a935ee60bbd9636e41a765"
+  },
+  "README.md": {
+    "mtime": 1787049193.77,
+    "ast_hash": "d6de3f3f580c934526ec9fd02525065e",
+    "semantic_hash": "d6de3f3f580c934526ec9fd02525065e"
+  },
+  "Sidebar.html": {
+    "mtime": 1787050839.265,
+    "ast_hash": "267989c538d6f07719cd8f74bd297f65",
+    "semantic_hash": "267989c538d6f07719cd8f74bd297f65"
+  },
+  "src/ui/Sidebar.html": {
+    "mtime": 1787050864.649,
+    "ast_hash": "420a06090a7e2abf3c7b099bb2a96a93",
+    "semantic_hash": "420a06090a7e2abf3c7b099bb2a96a93"
+  }
+}

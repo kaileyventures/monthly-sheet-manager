@@ -82,10 +82,40 @@
       --glow-b: rgba(52, 199, 89, 0.12);
     }
 
+    /* Custom Modern Slim Scrollbars */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.35);
+      border-radius: 10px;
+      transition: background 0.2s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(56, 189, 248, 0.65);
+    }
+
+    [data-theme="dark"] ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+      background: rgba(56, 189, 248, 0.55);
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
     }
 
     body {
@@ -585,10 +615,23 @@
       border-radius: var(--radius-md);
       padding: 8px 10px;
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
-      transition: transform 0.2s ease;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      user-select: none;
     }
 
-    .stat-pill:hover { transform: translateY(-1px); }
+    .stat-pill:hover {
+      transform: translateY(-1px);
+      border-color: rgba(56, 189, 248, 0.4);
+      background: rgba(56, 189, 248, 0.08);
+    }
+
+    .stat-pill.active-filter {
+      border-color: var(--accent-blue) !important;
+      background: rgba(56, 189, 248, 0.18) !important;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.35), inset 0 1px 0 rgba(255,255,255,0.9) !important;
+      transform: scale(1.03);
+    }
 
     .stat-value {
       font-size: 16px;
@@ -616,19 +659,90 @@
       line-height: 1.45;
     }
 
+    .details-container {
+      margin-top: 10px;
+    }
+
+    .details-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .details-title {
+      font-size: 9.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-dim);
+    }
+
+    .details-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .reset-filter-btn {
+      padding: 3px 8px;
+      border-radius: var(--radius-md);
+      font-size: 9px;
+      font-weight: 750;
+      font-family: inherit;
+      color: var(--text-dim);
+      background: var(--pill-bg);
+      border: 1px solid var(--pill-border);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .reset-filter-btn:hover {
+      color: var(--text-main);
+      border-color: var(--accent-blue);
+    }
+
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border-radius: var(--radius-md);
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .copy-btn:hover {
+      background: rgba(56, 189, 248, 0.25);
+      border-color: rgba(56, 189, 248, 0.5);
+      transform: scale(1.06);
+    }
+
+    .copy-btn.copied {
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
     .details-box {
-      margin-top: 8px;
-      max-height: 130px;
+      max-height: 140px;
       overflow-y: auto;
       background: var(--pill-bg);
       border: 1px solid var(--pill-border);
       border-radius: var(--radius-md);
       padding: 8px 10px;
-      font-size: 9px;
-      font-family: monospace;
+      font-size: 9.5px;
+      font-family: 'Consolas', 'Courier New', monospace;
       color: var(--text-main);
       white-space: pre-wrap;
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     .footer {
@@ -733,7 +847,20 @@
 
       <div id="stats" class="stats-grid"></div>
       <div id="message" class="message-box"></div>
-      <div id="details" class="details-box" style="display:none"></div>
+
+      <div id="detailsContainer" class="details-container" style="display:none">
+        <div class="details-header">
+          <span class="details-title">Preview Details Log</span>
+          <div class="details-actions">
+            <button id="resetFilterBtn" class="reset-filter-btn" onclick="filterDetails('all')" title="Show All Logs">All Logs</button>
+            <button id="copyBtn" class="copy-btn" onclick="copyDetailsToClipboard()" title="Copy log data for Excel / Sheets">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="details" class="details-box"></div>
+      </div>
     </div>
 
     <!-- Footer Note -->
@@ -744,6 +871,111 @@
 
   <script>
     var busy = false;
+    var safetyTimer = null;
+    var currentDetailsLog = [];
+    var currentFilteredLog = [];
+    var activeFilterCategory = 'all';
+
+    function resetBusyState() {
+      busy = false;
+      if (safetyTimer) {
+        clearTimeout(safetyTimer);
+        safetyTimer = null;
+      }
+      document.querySelectorAll('.glass-card .btn').forEach(function(b) {
+        b.disabled = false;
+      });
+    }
+
+    function copyDetailsToClipboard() {
+      var logToCopy = (currentFilteredLog && currentFilteredLog.length) ? currentFilteredLog : currentDetailsLog;
+      if (!logToCopy || !logToCopy.length) return;
+
+      var tsvLines = logToCopy.map(function(line) {
+        return String(line)
+          .replace(/→/g, String.fromCharCode(9))
+          .trim();
+      });
+
+      var copyText = tsvLines.join(String.fromCharCode(10));
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(copyText).then(onCopySuccess).catch(function() {
+          fallbackCopyText(copyText);
+        });
+      } else {
+        fallbackCopyText(copyText);
+      }
+    }
+
+    function fallbackCopyText(text) {
+      var textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        onCopySuccess();
+      } catch (e) {
+        console.error('Copy failed:', e);
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function onCopySuccess() {
+      var btn = document.getElementById('copyBtn');
+      if (btn) {
+        btn.classList.add('copied');
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+        setTimeout(function() {
+          btn.classList.remove('copied');
+          btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+        }, 2000);
+      }
+    }
+
+    function filterDetails(category) {
+      if (activeFilterCategory === category && category !== 'all') {
+        category = 'all';
+      }
+      activeFilterCategory = category;
+
+      document.querySelectorAll('.stat-pill').forEach(function(pill) {
+        var cat = pill.getAttribute('data-category');
+        pill.classList.toggle('active-filter', cat === category);
+      });
+
+      var resetBtn = document.getElementById('resetFilterBtn');
+      if (resetBtn) {
+        resetBtn.style.display = (category === 'all') ? 'none' : 'inline-block';
+      }
+
+      if (!currentDetailsLog || !currentDetailsLog.length) return;
+
+      if (category === 'all') {
+        currentFilteredLog = currentDetailsLog.slice();
+      } else {
+        currentFilteredLog = currentDetailsLog.filter(function(line) {
+          var upper = String(line).toUpperCase();
+          if (category === 'created') return upper.indexOf('CREATE') !== -1;
+          if (category === 'existing') return upper.indexOf('EXIST') !== -1 || upper.indexOf('ALREADY') !== -1;
+          if (category === 'skipped') return upper.indexOf('SKIP') !== -1 || upper.indexOf('BLANK') !== -1 || upper.indexOf('MISSING') !== -1;
+          if (category === 'errors') return upper.indexOf('ERROR') !== -1 || upper.indexOf('INVALID') !== -1 || upper.indexOf('ACCESS') !== -1 || upper.indexOf('ERR') !== -1;
+          return true;
+        });
+      }
+
+      var details = document.getElementById('details');
+      if (details) {
+        if (currentFilteredLog.length === 0) {
+          details.textContent = 'No log entries found for filter: ' + category.toUpperCase();
+        } else {
+          details.textContent = currentFilteredLog.join(String.fromCharCode(10));
+        }
+      }
+    }
 
     function toggleTheme() {
       var currentTheme = document.documentElement.getAttribute('data-theme');
@@ -792,7 +1024,7 @@
       var sub = document.getElementById('resultSub');
       var stats = document.getElementById('stats');
       var message = document.getElementById('message');
-      var details = document.getElementById('details');
+      var detailsContainer = document.getElementById('detailsContainer');
 
       var type = result.type || 'success';
 
@@ -804,16 +1036,16 @@
 
       stats.innerHTML = '';
       var items = [
-        ['Created', result.created],
-        ['Already Exists', result.existing],
-        ['Skipped', result.skipped],
-        ['Errors', result.errors]
+        ['Created', result.created, 'created'],
+        ['Already Exists', result.existing, 'existing'],
+        ['Skipped', result.skipped, 'skipped'],
+        ['Errors', result.errors, 'errors']
       ];
 
       items.forEach(function(item) {
         if (item[1] != null) {
           stats.innerHTML += 
-            '<div class="stat-pill">' +
+            '<div class="stat-pill" data-category="' + item[2] + '" onclick="filterDetails(\'' + item[2] + '\')" title="Click to filter by ' + item[0] + '">' +
               '<div class="stat-value">' + escapeHtml(item[1]) + '</div>' +
               '<div class="stat-label">' + escapeHtml(item[0]) + '</div>' +
             '</div>';
@@ -823,11 +1055,14 @@
       message.textContent = result.message || '';
 
       if (result.details && result.details.length) {
-        details.style.display = 'block';
-        details.textContent = result.details.join('\n') + (result.more ? ('\n\n… and ' + result.more + ' more.') : '');
+        currentDetailsLog = result.details;
+        currentFilteredLog = result.details.slice();
+        if (detailsContainer) detailsContainer.style.display = 'block';
+        filterDetails('all');
       } else {
-        details.style.display = 'none';
-        details.textContent = '';
+        currentDetailsLog = [];
+        currentFilteredLog = [];
+        if (detailsContainer) detailsContainer.style.display = 'none';
       }
 
       card.style.display = 'block';
@@ -853,9 +1088,14 @@
       if (busy) return;
       busy = true;
 
-      document.querySelectorAll('button').forEach(function(b) {
+      document.querySelectorAll('.glass-card .btn').forEach(function(b) {
         b.disabled = true;
       });
+
+      safetyTimer = setTimeout(function() {
+        resetBusyState();
+        setWorking(false);
+      }, 45000);
 
       var workingText =
         fn === 'createMonthlySheetsSafe' ? 'Creating monthly sheets…' :
@@ -878,16 +1118,14 @@
             clearInterval(clearTimer);
             updateProgress(100, 'Status Cleared', 'Complete!');
             setTimeout(function() {
-              busy = false;
-              document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+              resetBusyState();
               setWorking(false);
               showResult(result);
             }, 300);
           })
           .withFailureHandler(function(err) {
             clearInterval(clearTimer);
-            busy = false;
-            document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+            resetBusyState();
             setWorking(false);
             showResult({
               type: 'error',
@@ -904,15 +1142,13 @@
       google.script.run
         .withSuccessHandler(function(plan) {
           if (!plan || plan.error) {
-            busy = false;
-            document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
-            setWorking(false);
-            showResult(plan ? plan.result : {
-              type: 'error',
-              title: 'Execution Error',
-              message: 'Failed to fetch execution plan.',
-              created: 0, existing: 0, skipped: 0, errors: 1
-            });
+            if (plan && plan.result) {
+              resetBusyState();
+              setWorking(false);
+              showResult(plan.result);
+              return;
+            }
+            runDirectFallback(fn);
             return;
           }
 
@@ -934,8 +1170,7 @@
           if (totalRows === 0) {
             updateProgress(100, 'No rows to process', 'Done!');
             setTimeout(function() {
-              busy = false;
-              document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+              resetBusyState();
               setWorking(false);
               showResult(accumulated);
             }, 300);
@@ -953,8 +1188,7 @@
 
               updateProgress(100, 'Processing Complete!', '100% Done');
               setTimeout(function() {
-                busy = false;
-                document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+                resetBusyState();
                 setWorking(false);
                 showResult(accumulated);
               }, 400);
@@ -1005,8 +1239,33 @@
           processNextBatch();
         })
         .withFailureHandler(function(err) {
-          busy = false;
-          document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+          runDirectFallback(fn);
+        })
+        .getExecutionPlan(fn);
+    }
+
+    function runDirectFallback(fn) {
+      var progressSim = 0;
+      var simTimer = setInterval(function() {
+        if (progressSim < 90) {
+          progressSim += 10;
+          updateProgress(progressSim, 'Processing request…', 'Please wait…');
+        }
+      }, 300);
+
+      var runner = google.script.run
+        .withSuccessHandler(function(result) {
+          clearInterval(simTimer);
+          updateProgress(100, 'Complete', 'Done!');
+          setTimeout(function() {
+            resetBusyState();
+            setWorking(false);
+            showResult(result);
+          }, 250);
+        })
+        .withFailureHandler(function(err) {
+          clearInterval(simTimer);
+          resetBusyState();
           setWorking(false);
           showResult({
             type: 'error',
@@ -1014,8 +1273,17 @@
             message: err && err.message ? err.message : String(err),
             created: 0, existing: 0, skipped: 0, errors: 1
           });
-        })
-        .getExecutionPlan(fn);
+        });
+
+      if (fn === 'createMonthlySheetsSafe') {
+        runner.createMonthlySheetsSafe();
+      } else if (fn === 'previewMonthlySheets') {
+        runner.previewMonthlySheets();
+      } else if (fn === 'retryFailedRows') {
+        runner.retryFailedRows();
+      } else if (fn === 'clearProcessingStatus') {
+        runner.clearProcessingStatus();
+      }
     }
   </script>
 </body>

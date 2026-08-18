@@ -39,7 +39,7 @@ flowchart TD
 
     VerifySheet{"Sheet Created & Verified?"}
     MarkCreated["✅ Mark CREATED & Add Hyperlink"]
-    DisplayPreview["📊 Display Summary & Detailed Card"]
+    DisplayPreview["📊 Display Summary & Interactive Stat Pills"]
     StatusReset["✨ Status & Header Cleared"]
 
     Start --> Trigger
@@ -85,13 +85,16 @@ flowchart TD
 ## 🌟 Key Features
 
 - **📊 Real-Time 0-100% Progress Bar & ETA**: Live visual progress loader with exact percentage, row-by-row status, and real-time remaining time estimate (ETA).
+- **🎛️ Interactive Stat Pill Filters**: Click top summary pills (`CREATED`, `ALREADY EXISTS`, `SKIPPED`, `ERRORS`) to filter log entries instantly with glowing selection highlights.
+- **📋 Modern TSV/Excel Copy-to-Clipboard**: Export preview & detail log data formatted directly into Tab-Separated Values (TSV) for seamless copy-pasting into Microsoft Excel or Google Sheets.
+- **🎨 Custom Modern Slim Scrollbars**: 5px minimalist glassmorphic scrollbars with theme-adaptive hover effects across sidebar containers and log viewports.
 - **⚡ Direct Auto-Open Sidebar**: Automatically launches the **MIS Control Center** sidebar panel as soon as the Google Sheet is opened or refreshed.
 - **🚀 Automated Monthly Sheet Duplication**: Automatically clones a predefined `Template` sheet to target spreadsheets listed in the control sheet.
-- **💎 Ultra-Modern Glassmorphism UI**: High-end <b>MIS Control Center • K41L3Y</b> sidebar with smooth backdrop blurs and glowing accents.
+- **💎 Ultra-Modern Glassmorphic Design**: High-end **MIS Control Center • K41L3Y** sidebar with smooth backdrop blurs and glowing accents.
 - **☀️ Light & 🌙 Dark Mode Support**: Dynamic theme toggle supporting a native Google Sheets light mode and midnight dark mode.
 - **🔍 Safe Execution Preview**: Dry-run mode to inspect expected sheet creations and validate URLs before modifying target spreadsheets.
 - **🔄 Smart Error Handling & Retry**: Built-in lock mechanism, status tracking per row, and 1-click retry for failed rows.
-- **🧹 Status Cleanup**: 1-click feature to reset execution logs, status headers, and status values.
+- **🌐 Interactive Graphify Topology**: View complete codebase AST knowledge graph in [`graphify-out/graphify.html`](./graphify-out/graphify.html).
 
 ---
 
@@ -100,11 +103,15 @@ flowchart TD
 ```
 monthly-sheet-manager/
 ├── Code.gs                   # Single-file bundled Google Apps Script (Ready to paste in Editor)
+├── Sidebar.html              # Primary Glassmorphic HTML5/CSS3/JS UI Sidebar
 ├── appsscript.json           # Apps Script Manifest file
 ├── README.md                 # Project Overview & Quickstart Guide
 ├── CONTRIBUTING.md           # Guidelines for contributing
 ├── CHANGELOG.md              # Revision history & updates
 ├── LICENSE                   # MIT License
+├── graphify-out/             # Codebase Knowledge Graph & Topology
+│   ├── graphify.html         # Interactive visual topology graph
+│   └── GRAPH_REPORT.md       # Graph structure report & god nodes
 └── src/                      # Modular Architecture (Source Files)
     ├── core/
     │   └── Config.gs         # Constants, Header mapping, Menu & Sidebar triggers
@@ -132,7 +139,7 @@ If you prefer keeping separate files in Apps Script:
 1. Copy [`src/core/Config.gs`](./src/core/Config.gs) content to `Config.gs`.
 2. Copy [`src/services/SheetProcessor.gs`](./src/services/SheetProcessor.gs) content to `SheetProcessor.gs`.
 3. Copy [`src/utils/SheetUtils.gs`](./src/utils/SheetUtils.gs) content to `SheetUtils.gs`.
-4. Create an HTML file named `Sidebar` in the Apps Script editor and copy [`src/ui/Sidebar.html`](./src/ui/Sidebar.html) content.
+4. Create an HTML file named `Sidebar` in the Apps Script editor and copy [`Sidebar.html`](./Sidebar.html) content.
 
 ---
 

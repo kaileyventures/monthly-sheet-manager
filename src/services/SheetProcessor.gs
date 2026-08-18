@@ -72,6 +72,7 @@ function processRows_(selectedRows) {
   var existingCount = 0;
   var skippedCount = 0;
   var errorCount = 0;
+  var details = [];
   var startTime = new Date();
 
   var rows = [];
@@ -91,6 +92,7 @@ function processRows_(selectedRows) {
 
     var urlDisplay = data[index][urlColumn - 1];
     var month = String(data[index][monthColumn - 1] || "").trim();
+    var callerName = callerColumn > 0 ? String(data[index][callerColumn - 1] || "").trim() : "";
 
     var url = getSheetUrl_(urlDisplay, formulas[index][0], richTexts[index][0]);
     var now = new Date();
@@ -99,18 +101,21 @@ function processRows_(selectedRows) {
       setStatus_(controlSheet, row, statusColumn, timeColumn, "⏭ SKIPPED - Month Blank", now);
       controlSheet.getRange(row, errorColumn).clearContent();
       skippedCount++;
+      details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + "MONTH BLANK → SKIPPED");
       continue;
     }
 
     if (!url) {
       setStatus_(controlSheet, row, statusColumn, timeColumn, "⏭ SKIPPED - URL Blank", now);
       skippedCount++;
+      details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + "URL BLANK → SKIPPED");
       continue;
     }
 
     if (!isValidSheetName_(month)) {
       setError_(controlSheet, row, statusColumn, timeColumn, errorColumn, "Invalid sheet name: " + month, now);
       errorCount++;
+      details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + "INVALID SHEET NAME → ERROR");
       continue;
     }
 
@@ -118,6 +123,7 @@ function processRows_(selectedRows) {
     if (!spreadsheetId) {
       setError_(controlSheet, row, statusColumn, timeColumn, errorColumn, "Invalid Google Sheet URL", now);
       errorCount++;
+      details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + "INVALID URL → ERROR");
       continue;
     }
 
@@ -133,6 +139,7 @@ function processRows_(selectedRows) {
         setStatus_(controlSheet, row, statusColumn, timeColumn, "⏭ ALREADY EXISTS", now);
         setCreatedLink_(controlSheet, row, createdColumn, existingUrl);
         existingCount++;
+        details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + month + " → EXISTS");
         continue;
       }
 
@@ -158,6 +165,7 @@ function processRows_(selectedRows) {
       setCreatedLink_(controlSheet, row, createdColumn, newUrl);
       setStatus_(controlSheet, row, statusColumn, timeColumn, "✅ CREATED", now);
       createdCount++;
+      details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + month + " → CREATE");
 
     } catch (e) {
       var message = e && e.message ? e.message : String(e);
@@ -165,11 +173,13 @@ function processRows_(selectedRows) {
       if (isDuplicateSheetError_(message)) {
         setStatus_(controlSheet, row, statusColumn, timeColumn, "⏭ ALREADY EXISTS", now);
         existingCount++;
+        details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + month + " → EXISTS");
         continue;
       }
 
       setError_(controlSheet, row, statusColumn, timeColumn, errorColumn, message, now);
       errorCount++;
+      details.push("Row " + row + " → " + (callerName ? callerName + " → " : "") + "ERROR: " + message);
     }
   }
 
