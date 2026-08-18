@@ -84,6 +84,7 @@ flowchart TD
 
 ## 🌟 Key Features
 
+- **📊 Real-Time 0-100% Progress Bar & ETA**: Live visual progress loader with exact percentage, row-by-row status, and real-time remaining time estimate (ETA).
 - **⚡ Direct Auto-Open Sidebar**: Automatically launches the **MIS Control Center** sidebar panel as soon as the Google Sheet is opened or refreshed.
 - **🚀 Automated Monthly Sheet Duplication**: Automatically clones a predefined `Template` sheet to target spreadsheets listed in the control sheet.
 - **💎 Ultra-Modern Glassmorphism UI**: High-end <b>MIS Control Center • K41L3Y</b> sidebar with smooth backdrop blurs and glowing accents.

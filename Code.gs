@@ -340,6 +340,176 @@ function processRows_(selectedRows) {
 }
 
 /* =========================================================
+   REALTIME BATCH EXECUTION & PROGRESS APIS
+   ========================================================= */
+
+function getExecutionPlan(action) {
+  var controlSheet = findControlSheet_();
+  if (!controlSheet) {
+    return {
+      error: true,
+      result: {
+        type: "error",
+        title: "Control Sheet Not Found",
+        message: "Required headers: Caller Sheet URL, Month, Caller Name and TL Name.",
+        created: 0, existing: 0, skipped: 0, errors: 1
+      }
+    };
+  }
+
+  var templateSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.TEMPLATE_SHEET_NAME);
+  if (action === 'createMonthlySheetsSafe' && !templateSheet) {
+    return {
+      error: true,
+      result: {
+        type: "error",
+        title: "Template Not Found",
+        message: "Sheet named 'Template' not found.",
+        created: 0, existing: 0, skipped: 0, errors: 1
+      }
+    };
+  }
+
+  var lastRow = controlSheet.getLastRow();
+  if (lastRow <= CONFIG.HEADER_ROW) {
+    return {
+      error: true,
+      result: {
+        type: "warning",
+        title: "No Data",
+        message: "Control sheet has no data rows to process.",
+        created: 0, existing: 0, skipped: 0, errors: 0
+      }
+    };
+  }
+
+  var rows = [];
+  if (action === 'retryFailedRows') {
+    var statusColumn = findHeaderColumn_(controlSheet, CONFIG.STATUS_HEADER);
+    if (statusColumn === -1) {
+      return {
+        error: true,
+        result: {
+          type: "warning",
+          title: "Nothing to Retry",
+          message: "Status column not found.",
+          created: 0, existing: 0, skipped: 0, errors: 0
+        }
+      };
+    }
+
+    var statuses = controlSheet.getRange(CONFIG.HEADER_ROW + 1, statusColumn, lastRow - CONFIG.HEADER_ROW, 1).getDisplayValues();
+    for (var i = 0; i < statuses.length; i++) {
+      if (String(statuses[i][0] || "").indexOf("❌ ERROR") === 0) {
+        rows.push(i + CONFIG.HEADER_ROW + 1);
+      }
+    }
+
+    if (rows.length === 0) {
+      return {
+        error: true,
+        result: {
+          type: "success",
+          title: "Nothing to Retry",
+          message: "No failed rows found.",
+          created: 0, existing: 0, skipped: 0, errors: 0
+        }
+      };
+    }
+  } else {
+    for (var r = CONFIG.HEADER_ROW + 1; r <= lastRow; r++) {
+      rows.push(r);
+    }
+  }
+
+  return {
+    error: false,
+    totalRows: rows.length,
+    rows: rows
+  };
+}
+
+function executeRowBatch(action, selectedRows) {
+  if (action === 'previewMonthlySheets') {
+    return previewMonthlySheetsBatch_(selectedRows);
+  } else {
+    return processRows_(selectedRows);
+  }
+}
+
+function previewMonthlySheetsBatch_(selectedRows) {
+  var controlSheet = findControlSheet_();
+  if (!controlSheet) {
+    return { created: 0, existing: 0, skipped: 0, errors: 1, details: [] };
+  }
+
+  var urlColumn = findHeaderColumn_(controlSheet, CONFIG.URL_HEADER);
+  var monthColumn = findHeaderColumn_(controlSheet, CONFIG.MONTH_HEADER);
+  var callerColumn = findHeaderColumn_(controlSheet, CONFIG.CALLER_HEADER);
+
+  var lastRow = controlSheet.getLastRow();
+  var data = controlSheet.getRange(CONFIG.HEADER_ROW + 1, 1, lastRow - CONFIG.HEADER_ROW, controlSheet.getLastColumn()).getDisplayValues();
+
+  var createCount = 0;
+  var existingCount = 0;
+  var blankCount = 0;
+  var errorCount = 0;
+  var preview = [];
+
+  for (var x = 0; x < selectedRows.length; x++) {
+    var row = selectedRows[x];
+    var i = row - CONFIG.HEADER_ROW - 1;
+    if (i < 0 || i >= data.length) continue;
+
+    var url = String(data[i][urlColumn - 1] || "").trim();
+    var month = String(data[i][monthColumn - 1] || "").trim();
+    var caller = callerColumn > 0 ? String(data[i][callerColumn - 1] || "").trim() : "";
+
+    if (!month) {
+      blankCount++;
+      continue;
+    }
+
+    if (!url) {
+      blankCount++;
+      preview.push("Row " + row + " → " + (caller ? caller + " → " : "") + "URL BLANK");
+      continue;
+    }
+
+    var id = extractSpreadsheetId_(url);
+    if (!id) {
+      errorCount++;
+      preview.push("Row " + row + " → " + (caller ? caller + " → " : "") + "INVALID URL");
+      continue;
+    }
+
+    try {
+      var destSS = SpreadsheetApp.openById(id);
+      var existing = destSS.getSheetByName(month);
+
+      if (existing) {
+        existingCount++;
+        preview.push("Row " + row + " → " + (caller ? caller + " → " : "") + month + " → EXISTS");
+      } else {
+        createCount++;
+        preview.push("Row " + row + " → " + (caller ? caller + " → " : "") + month + " → CREATE");
+      }
+    } catch (e) {
+      errorCount++;
+      preview.push("Row " + row + " → " + (caller ? caller + " → " : "") + "ACCESS ERROR");
+    }
+  }
+
+  return {
+    created: createCount,
+    existing: existingCount,
+    skipped: blankCount,
+    errors: errorCount,
+    details: preview
+  };
+}
+
+/* =========================================================
    PREVIEW WORKFLOW
    ========================================================= */
 
@@ -989,12 +1159,12 @@ function getManagerPanelHtml_() {
 
     .working-box {
       display: none;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
+      flex-direction: column;
+      gap: 10px;
+      padding: 14px 16px;
       border-radius: var(--radius-lg);
-      color: #086bc9;
-      background: rgba(235, 246, 255, 0.68);
+      color: var(--text-main);
+      background: var(--glass-bg);
       border: 1px solid var(--glass-border);
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), var(--glass-shadow);
       backdrop-filter: blur(22px);
@@ -1003,35 +1173,78 @@ function getManagerPanelHtml_() {
     }
 
     [data-theme="dark"] .working-box {
-      color: var(--accent-blue);
-      background: rgba(30, 58, 138, 0.35);
-      border-color: rgba(59, 130, 246, 0.35);
+      background: rgba(30, 41, 59, 0.65);
+      border-color: rgba(255, 255, 255, 0.12);
     }
 
     .working-box.show { display: flex; }
 
-    .spinner-ring {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-      border: 2.5px solid rgba(10, 132, 255, 0.2);
-      border-top-color: var(--accent-blue);
-      border-right-color: var(--accent-indigo);
-      border-radius: 50%;
-      animation: spin 0.75s linear infinite;
+    .working-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
     }
 
-    .working-text b {
+    .working-info b {
       display: block;
-      font-size: 12px;
-      font-weight: 750;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.2px;
     }
 
-    .working-text span {
+    .working-info span {
       display: block;
       font-size: 9.5px;
       color: var(--text-muted);
-      margin-top: 1px;
+      margin-top: 2px;
+    }
+
+    .progress-badge {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 2px 8px;
+      border-radius: 16px;
+      font-feature-settings: "tnum";
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    [data-theme="dark"] .progress-bar-container {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #38bdf8 0%, #6366f1 50%, #10b981 100%);
+      background-size: 200% 100%;
+      border-radius: 10px;
+      transition: width 0.25s ease-out;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+    }
+
+    .progress-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 9.5px;
+      color: var(--text-dim);
+      font-weight: 600;
     }
 
     .results-card {
@@ -1252,10 +1465,21 @@ function getManagerPanelHtml_() {
     </div>
 
     <div id="working" class="working-box">
-      <div class="spinner-ring"></div>
-      <div class="working-text">
-        <b id="workingText">Processing Request…</b>
-        <span>Please keep sidebar open during execution.</span>
+      <div class="working-header">
+        <div class="working-info">
+          <b id="workingText">Processing Request…</b>
+          <span id="workingSubText">Please keep sidebar open during execution.</span>
+        </div>
+        <div class="progress-badge" id="progressPercentage">0%</div>
+      </div>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+      </div>
+
+      <div class="progress-meta">
+        <span id="progressStatus">Initializing…</span>
+        <span id="progressEta">⏱️ Estimating time…</span>
       </div>
     </div>
 
@@ -1296,11 +1520,29 @@ function getManagerPanelHtml_() {
       card.style.display = 'none';
     }
 
-    function setWorking(on, text) {
+    function updateProgress(percent, statusText, etaText) {
+      var bar = document.getElementById('progressBarFill');
+      var badge = document.getElementById('progressPercentage');
+      var status = document.getElementById('progressStatus');
+      var eta = document.getElementById('progressEta');
+
+      percent = Math.min(100, Math.max(0, Math.round(percent)));
+      if (bar) bar.style.width = percent + '%';
+      if (badge) badge.textContent = percent + '%';
+      if (status && statusText != null) status.textContent = statusText;
+      if (eta && etaText != null) eta.textContent = etaText;
+    }
+
+    function setWorking(on, text, subText) {
       var box = document.getElementById('working');
       var label = document.getElementById('workingText');
+      var sub = document.getElementById('workingSubText');
       box.classList.toggle('show', on);
-      label.textContent = text || 'Processing Request…';
+      if (label) label.textContent = text || 'Processing Request…';
+      if (sub) sub.textContent = subText || 'Please keep sidebar open during execution.';
+      if (on) {
+        updateProgress(0, 'Initializing workflow…', '⏱️ Estimating time…');
+      }
     }
 
     function showResult(result) {
@@ -1384,20 +1626,175 @@ function getManagerPanelHtml_() {
 
       setWorking(true, workingText);
 
-      var runner = google.script.run
-        .withSuccessHandler(function(result) {
-          busy = false;
-          document.querySelectorAll('button').forEach(function(b) {
-            b.disabled = false;
-          });
-          setWorking(false);
-          showResult(result);
+      if (fn === 'clearProcessingStatus') {
+        var clearProgress = 0;
+        var clearTimer = setInterval(function() {
+          if (clearProgress < 90) {
+            clearProgress += 15;
+            updateProgress(clearProgress, 'Cleaning status columns…', 'Almost done…');
+          }
+        }, 150);
+
+        google.script.run
+          .withSuccessHandler(function(result) {
+            clearInterval(clearTimer);
+            updateProgress(100, 'Status Cleared', 'Complete!');
+            setTimeout(function() {
+              busy = false;
+              document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+              setWorking(false);
+              showResult(result);
+            }, 300);
+          })
+          .withFailureHandler(function(err) {
+            clearInterval(clearTimer);
+            busy = false;
+            document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+            setWorking(false);
+            showResult({
+              type: 'error',
+              title: 'Execution Error',
+              message: err && err.message ? err.message : String(err),
+              created: 0, existing: 0, skipped: 0, errors: 1
+            });
+          })
+          .clearProcessingStatus();
+        return;
+      }
+
+      // Batch execution with real-time 0-100% progress & ETA
+      google.script.run
+        .withSuccessHandler(function(plan) {
+          if (!plan || plan.error) {
+            if (plan && plan.result) {
+              busy = false;
+              document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+              setWorking(false);
+              showResult(plan.result);
+              return;
+            }
+            runDirectFallback(fn);
+            return;
+          }
+
+          var totalRows = plan.totalRows;
+          var rows = plan.rows;
+          var completed = 0;
+          var startTime = Date.now();
+          var accumulated = {
+            type: 'success',
+            title: fn === 'previewMonthlySheets' ? 'Preview Only' : (fn === 'retryFailedRows' ? 'Retry Completed' : 'Process Complete'),
+            message: fn === 'previewMonthlySheets' ? 'No changes were made. This is only a preview.' : 'Monthly sheet processing completed.',
+            created: 0,
+            existing: 0,
+            skipped: 0,
+            errors: 0,
+            details: []
+          };
+
+          if (totalRows === 0) {
+            updateProgress(100, 'No rows to process', 'Done!');
+            setTimeout(function() {
+              busy = false;
+              document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+              setWorking(false);
+              showResult(accumulated);
+            }, 300);
+            return;
+          }
+
+          function processNextBatch() {
+            if (completed >= totalRows) {
+              var elapsedSec = Number(((Date.now() - startTime) / 1000).toFixed(1));
+              accumulated.seconds = elapsedSec;
+              if (accumulated.errors > 0) {
+                accumulated.type = 'warning';
+                accumulated.title = 'Completed with Errors';
+              }
+
+              updateProgress(100, 'Processing Complete!', '100% Done');
+              setTimeout(function() {
+                busy = false;
+                document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+                setWorking(false);
+                showResult(accumulated);
+              }, 400);
+              return;
+            }
+
+            var nextRow = rows[completed];
+            var batchRows = [nextRow];
+
+            google.script.run
+              .withSuccessHandler(function(batchRes) {
+                completed += batchRows.length;
+                if (batchRes) {
+                  accumulated.created += (batchRes.created || 0);
+                  accumulated.existing += (batchRes.existing || 0);
+                  accumulated.skipped += (batchRes.skipped || 0);
+                  accumulated.errors += (batchRes.errors || 0);
+                  if (batchRes.details && batchRes.details.length) {
+                    accumulated.details = accumulated.details.concat(batchRes.details);
+                  }
+                }
+
+                var percent = (completed / totalRows) * 100;
+                var elapsedMs = Date.now() - startTime;
+                var avgMsPerRow = elapsedMs / completed;
+                var remainMs = Math.ceil((totalRows - completed) * avgMsPerRow);
+                var remainSec = Math.max(1, Math.ceil(remainMs / 1000));
+                
+                var etaStr = completed === totalRows ? 'Finishing…' : ('⏱️ ~' + remainSec + 's remaining');
+                var statusStr = 'Row ' + completed + ' of ' + totalRows + ' (' + Math.round(percent) + '%)';
+
+                updateProgress(percent, statusStr, etaStr);
+                processNextBatch();
+              })
+              .withFailureHandler(function(err) {
+                completed += batchRows.length;
+                accumulated.errors += 1;
+                accumulated.details.push('Row ' + nextRow + ' → ERROR: ' + (err && err.message ? err.message : String(err)));
+
+                var percent = (completed / totalRows) * 100;
+                updateProgress(percent, 'Row ' + completed + ' of ' + totalRows + ' (Error)', 'Continuing…');
+                processNextBatch();
+              })
+              .executeRowBatch(fn, batchRows);
+          }
+
+          updateProgress(0, 'Row 0 of ' + totalRows, 'Calculating ETA…');
+          processNextBatch();
         })
         .withFailureHandler(function(err) {
+          runDirectFallback(fn);
+        })
+        .getExecutionPlan(fn);
+    }
+
+    function runDirectFallback(fn) {
+      var progressSim = 0;
+      var simTimer = setInterval(function() {
+        if (progressSim < 90) {
+          progressSim += 10;
+          updateProgress(progressSim, 'Processing request…', 'Please wait…');
+        }
+      }, 300);
+
+      var runner = google.script.run
+        .withSuccessHandler(function(result) {
+          clearInterval(simTimer);
+          updateProgress(100, 'Complete', 'Done!');
+          setTimeout(function() {
+            busy = false;
+            document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
+            setWorking(false);
+            showResult(result);
+          }, 250);
+        })
+        .withFailureHandler(function(err) {
+          clearInterval(simTimer);
           busy = false;
-          document.querySelectorAll('button').forEach(function(b) {
-            b.disabled = false;
-          });
+          document.querySelectorAll('button').forEach(function(b) { b.disabled = false; });
           setWorking(false);
           showResult({
             type: 'error',

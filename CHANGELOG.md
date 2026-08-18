@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2026-08-18
+
+### Added
+- **Realtime 0-100% Progress Bar with ETA**: Replaced generic circular loader in the sidebar UI with a glassmorphism real-time progress bar that displays percentage (0-100%), current row status, and dynamic remaining time (ETA).
+
 ## [1.2.0] - 2026-08-18
 
 ### Added
